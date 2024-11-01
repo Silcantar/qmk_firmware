@@ -1,0 +1,11 @@
+const custom_shift_key_t custom_shift_keys[] = {
+	{CK_COPY,		CK_CUT},
+	{CK_PASTE,		CK_PASTEP},
+	{KC_BSPC,		KC_DEL},
+	{DM_REC1,		DM_REC2},
+	{KC_GRAVE,		CK_ACUTE},
+};
+
+const custom_shift_key_t custom_ralt_keys[] = {
+	
+}
