@@ -1,5 +1,5 @@
-#SRC += features/custom_modified_keys.c
 SRC += features/select_word.c
+SRC += features/send_unicode_set.c
 
 CONSOLE_ENABLE = yes
 
@@ -20,5 +20,9 @@ RGB_MATRIX_ENABLE = no
 COMBO_ENABLE = yes
 
 DYNAMIC_MACRO_ENABLE = yes
+
+SEND_STRING_ENABLE = yes
+
+KEY_LOCK_ENABLE = yes
 
 #SWAP_HANDS_ENABLE = yes

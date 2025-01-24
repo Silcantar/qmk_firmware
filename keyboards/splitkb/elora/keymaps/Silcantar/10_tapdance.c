@@ -183,8 +183,10 @@ void td_exclams(tap_dance_state_t *state, void *user_data) {
 	if (state->count >= 2) {
 		send_unicode_string("¡!");
 		tap_code16(KC_LEFT);
+	} else if (SHIFT_ACTIVE) {
+		send_unicode_string("¡");
 	} else {
-		tap_code16(KC_EXCLAIM);
+		send_unicode_set("!", "¡", "̂", "̌");
 	}
 }
 
@@ -193,7 +195,7 @@ void td_fsquote(tap_dance_state_t *state, void *user_data) {
 		send_unicode_string("‘’");
 		tap_code16(KC_LEFT);
 	} else {
-		tap_code16(CK_LSQUOTE);
+		send_unicode_set("‘", "’", "̀", "̏");
 	}
 }
 
@@ -202,7 +204,7 @@ void td_fdquote(tap_dance_state_t *state, void *user_data) {
 		send_unicode_string("“”");
 		tap_code16(KC_LEFT);
 	} else {
-		tap_code16(CK_LDQUOTE);
+		send_unicode_set("“", "”", "‚", "„");
 	}
 }
 
@@ -211,25 +213,24 @@ void td_ques(tap_dance_state_t *state, void *user_data) {
 		send_unicode_string("¿?");
 		tap_code16(KC_LEFT);
 	} else {
-		tap_code16(KC_QUES);
+		send_unicode_set("?", "¿", "̃", "̛");
 	}
 }
 
-void td_dquotes(tap_dance_state_t *state, void *user_data) {
+void td_quotes(tap_dance_state_t *state, void *user_data) {
 	if (state->count >= 2) {
-		send_unicode_string("\"\"");
-		tap_code16(KC_LEFT);
+		if (SHIFT_ACTIVE) {
+			const uint8_t mods = GET_ALL_MODS;
+			CLEAR_SHIFT;
+			send_unicode_string("\"\"");
+			tap_code16(KC_LEFT);
+			set_mods(mods);
+		} else {
+			send_unicode_string("''");
+			tap_code16(KC_LEFT);
+		}
 	} else {
-		tap_code16(KC_QUOTE);
-	}
-}
-
-void td_squotes(tap_dance_state_t *state, void *user_data) {
-	if (state->count >= 2) {
-		send_unicode_string("''");
-		tap_code16(KC_LEFT);
-	} else {
-		tap_code16(KC_Q);
+		send_unicode_set("'", "\"", "́", "̋");
 	}
 }
 
@@ -238,7 +239,7 @@ void td_uscores(tap_dance_state_t *state, void *user_data) {
 		send_unicode_string("__");
 		tap_code16(KC_LEFT);
 	} else {
-		tap_code16(KC_MINUS);
+		send_unicode_set("_", "-", "̄", "̱");
 	}
 }
 
@@ -246,6 +247,8 @@ void td_pipes(tap_dance_state_t *state, void *user_data) {
 	if (state->count >= 2) {
 		send_unicode_string("||");
 		tap_code16(KC_LEFT);
+	} else if (SHIFT_ACTIVE) {
+		send_unicode_string("€");
 	} else {
 		tap_code16(KC_PIPE);
 	}
@@ -255,8 +258,21 @@ void td_angles(tap_dance_state_t *state, void *user_data) {
 	if (state->count >= 2) {
 		send_unicode_string("<>");
 		tap_code16(KC_LEFT);
+	} else if (SHIFT_ACTIVE) {
+		send_unicode_string("≤");
 	} else {
 		tap_code16(KC_LT);
+	}
+}
+
+void td_bracks(tap_dance_state_t *state, void *user_data) {
+	if (state->count >= 2) {
+		send_unicode_string("[]");
+		tap_code16(KC_LEFT);
+	} else if (SHIFT_ACTIVE) {
+		send_unicode_string("]");
+	} else {
+		tap_code16(KC_LBRC);
 	}
 }
 
@@ -264,6 +280,8 @@ void td_braces(tap_dance_state_t *state, void *user_data) {
 	if (state->count >= 2) {
 		send_unicode_string("{}");
 		tap_code16(KC_LEFT);
+	} else if (SHIFT_ACTIVE) {
+		tap_code16(KC_RCBR);
 	} else {
 		tap_code16(KC_LCBR);
 	}
@@ -273,17 +291,10 @@ void td_parens(tap_dance_state_t *state, void *user_data) {
 	if (state->count >= 2) {
 		send_unicode_string("()");
 		tap_code16(KC_LEFT);
+	} else if (SHIFT_ACTIVE) {
+		tap_code16(KC_RPRN);
 	} else {
 		tap_code16(KC_LPRN);
-	}
-}
-
-void td_bracks(tap_dance_state_t *state, void *user_data) {
-	if (state->count >= 2) {
-		send_unicode_string("[]");
-		tap_code16(KC_LEFT);
-	} else {
-		tap_code16(KC_LBRC);
 	}
 }
 
@@ -292,6 +303,8 @@ void td_pascomm(tap_dance_state_t *state, void *user_data) {
 		send_unicode_string("(**)");
 		tap_code16(KC_LEFT);
 		tap_code16(KC_LEFT);
+	} else if (SHIFT_ACTIVE) {
+		send_unicode_string("≥");
 	} else {
 		tap_code16(KC_GT);
 	}
@@ -301,8 +314,10 @@ void td_stars(tap_dance_state_t *state, void *user_data) {
 	if (state->count >= 2) {
 		send_unicode_string("**");
 		tap_code16(KC_LEFT);
+	} else if (SHIFT_ACTIVE) {
+		send_unicode_string("×");
 	} else {
-		tap_code16(KC_PAST);
+		tap_code16(KC_ASTR);
 	}
 }
 
@@ -311,6 +326,8 @@ void td_ccomm(tap_dance_state_t *state, void *user_data) {
 		send_unicode_string("/**/");
 		tap_code16(KC_LEFT);
 		tap_code16(KC_LEFT);
+	} else if (SHIFT_ACTIVE) {
+		send_unicode_string("°");
 	} else {
 		tap_code16(KC_CIRC);
 	}
@@ -330,8 +347,7 @@ tap_dance_action_t tap_dance_actions[] = {
 	[_FSQUOTE]		= ACTION_TAP_DANCE_FN(td_fsquote),
 	[_FDQUOTE]		= ACTION_TAP_DANCE_FN(td_fdquote),
 	[_QUES]			= ACTION_TAP_DANCE_FN(td_ques),
-	[_DQUOTES]		= ACTION_TAP_DANCE_FN(td_dquotes),
-	[_SQUOTES]		= ACTION_TAP_DANCE_FN(td_squotes),
+	[_QUOTES]		= ACTION_TAP_DANCE_FN(td_quotes),
 	[_USCORES]		= ACTION_TAP_DANCE_FN(td_uscores),
 	[_PIPES]		= ACTION_TAP_DANCE_FN(td_pipes),
 	[_ANGLES]		= ACTION_TAP_DANCE_FN(td_angles),

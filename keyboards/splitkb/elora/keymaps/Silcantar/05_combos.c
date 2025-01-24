@@ -22,6 +22,13 @@ enum combos {
 	LU_FUNC,
 	LU_MOUSE,
 	LU_WINMAN,
+
+	LALT_LOCK,
+	RALT_LOCK,
+	LCTL_LOCK,
+	RCTL_LOCK,
+	LGUI_LOCK,
+	RGUI_LOCK,
 };
 
 //const uint16_t PROGMEM combo_caps_word[] = {
@@ -48,6 +55,13 @@ const uint16_t PROGMEM combo_layerup_e[] = {CK_LAYERUP, KC_E, COMBO_END};
 const uint16_t PROGMEM combo_layerup_i[] = {CK_LAYERUP, KC_I, COMBO_END};
 const uint16_t PROGMEM combo_layerup_o[] = {CK_LAYERUP, KC_O, COMBO_END};
 
+const uint16_t PROGMEM lalt_lock[] = {KC_CAPS, LALT_LYCLR, COMBO_END};
+const uint16_t PROGMEM ralt_lock[] = {KC_CAPS, OSM_RALT, COMBO_END};
+const uint16_t PROGMEM lctl_lock[] = {KC_CAPS, OSM_LCTL, COMBO_END};
+const uint16_t PROGMEM rctl_lock[] = {KC_CAPS, RCTL_TAB, COMBO_END};
+const uint16_t PROGMEM lgui_lock[] = {KC_CAPS, LGUI_ESC, COMBO_END};
+const uint16_t PROGMEM rgui_lock[] = {KC_CAPS, OSM_RGUI, COMBO_END};
+
 combo_t key_combos[] = {
 	[LD_COLEMAK]	= COMBO(combo_layerdown_a, COLEMAK),
 	[LD_QWERTY]		= COMBO(combo_layerdown_r, QWERTY),
@@ -70,4 +84,11 @@ combo_t key_combos[] = {
 	[LU_FUNC]		= COMBO(combo_layerup_e, FUNCTION),
 	[LU_MOUSE]		= COMBO(combo_layerup_i, MOUSE),
 	[LU_WINMAN]		= COMBO(combo_layerup_o, WINMAN),
+
+	[LALT_LOCK]		= COMBO(lalt_lock, CK_LALTLOCK),
+	[RALT_LOCK]		= COMBO(ralt_lock, CK_RALTLOCK),
+	[LCTL_LOCK]		= COMBO(lctl_lock, CK_LCTLLOCK),
+	[RCTL_LOCK]		= COMBO(rctl_lock, CK_RCTLLOCK),
+	[LGUI_LOCK]		= COMBO(lgui_lock, CK_LGUILOCK),
+	[RGUI_LOCK]		= COMBO(rgui_lock, CK_RGUILOCK),
 };

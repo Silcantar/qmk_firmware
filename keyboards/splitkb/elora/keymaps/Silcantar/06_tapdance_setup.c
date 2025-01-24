@@ -30,8 +30,7 @@ enum {
 	_FSQUOTE,
 	_FDQUOTE,
 	_QUES,
-	_DQUOTES, 
-	_SQUOTES,
+	_QUOTES, 
 	_USCORES,
 	_PIPES,
 	_ANGLES,
@@ -54,8 +53,7 @@ enum {
 #define TD_FSQUOTE	TD(_FSQUOTE)
 #define TD_FDQUOTE	TD(_FDQUOTE)
 #define TD_QUES		TD(_QUES)
-#define TD_DQUOTES	TD(_DQUOTES)
-#define TD_SQUOTES	TD(_SQUOTES)
+#define TD_QUOTES	TD(_QUOTES)
 #define TD_USCORES	TD(_USCORES)
 #define TD_PIPES	TD(_PIPES)
 #define TD_ANGLES	TD(_ANGLES)

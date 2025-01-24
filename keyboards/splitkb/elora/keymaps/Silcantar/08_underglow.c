@@ -10,7 +10,41 @@
 #define HUE_BLUE	163
 #define HUE_PURPLE	188
 #define HUE_MAGENTA	213
-#define HUE_RED		235
+#define HUE_RED		243
+
+// Caps Word Indication
+
+#define INDICATOR_SAT		255
+#define INDICATOR_VAL		192
+#define CAPS_WORD_COLOR		HUE_GREEN, INDICATOR_SAT, INDICATOR_VAL
+#define CAPS_LOCK_COLOR		HUE_RED, INDICATOR_SAT, INDICATOR_VAL
+#define PTHUMB_LED_INDEX	5
+#define STHUMB_LED_INDEX	6
+
+void update_caps_lock_led(void) {
+    if (host_keyboard_led_state().caps_lock) {
+        rgblight_sethsv_at(CAPS_LOCK_COLOR, PTHUMB_LED_INDEX);
+        rgblight_sethsv_at(CAPS_LOCK_COLOR, STHUMB_LED_INDEX);
+    } else {
+        rgblight_sethsv_at(rgblight_get_hue(), rgblight_get_sat(), rgblight_get_val(), PTHUMB_LED_INDEX);
+        rgblight_sethsv_at(rgblight_get_hue(), rgblight_get_sat(), rgblight_get_val(), STHUMB_LED_INDEX);
+    }
+}
+
+void caps_word_set_user(bool active) {
+    if (active) {
+        rgblight_sethsv_at(CAPS_WORD_COLOR, PTHUMB_LED_INDEX);
+        rgblight_sethsv_at(CAPS_WORD_COLOR, STHUMB_LED_INDEX);
+    } else {
+        rgblight_sethsv_at(rgblight_get_hue(), rgblight_get_sat(), rgblight_get_val(), PTHUMB_LED_INDEX);
+        rgblight_sethsv_at(rgblight_get_hue(), rgblight_get_sat(), rgblight_get_val(), STHUMB_LED_INDEX);
+    }
+}
+
+bool led_update_user(led_t led_state) {
+	update_caps_lock_led();
+	return false;
+}
 
 // Layer Indication Underglow
 layer_state_t layer_state_set_user(layer_state_t state) {
@@ -19,60 +53,50 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 	switch (get_highest_layer(state)) {
 	case _COLEMAK:
 		rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT);
-		rgblight_sethsv (HUE_BLUE, DEFAULT_SAT, DEFAULT_VAL);	// Blue
+		rgblight_sethsv (HUE_BLUE, DEFAULT_SAT, DEFAULT_VAL);
 		break;
 	case _QWERTY:
 		rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT);
 		rgblight_sethsv (0, 0, DEFAULT_VAL);				// White
 		break;
-	case _NUMERIC:
-		rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT);
-		rgblight_sethsv (HUE_CYAN, DEFAULT_SAT, DEFAULT_VAL);	// Cyan
-		break;
-	case _FUNCTION:
-		rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT);
-		rgblight_sethsv (HUE_GREEN, DEFAULT_SAT, DEFAULT_VAL);		// Green
-		break;
-	case _MOUSE:
-		rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT);
-		rgblight_sethsv (HUE_ORANGE, DEFAULT_SAT, DEFAULT_VAL);		// Orange
-		break;
-	case _WINMAN:
-		rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT);
-		rgblight_sethsv (HUE_PURPLE, DEFAULT_SAT, DEFAULT_VAL);	// Purple
-		break;
 	case _GREEK:
 		rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT);
-		rgblight_sethsv (HUE_AZURE, DEFAULT_SAT, DEFAULT_VAL);	// Azure
+		rgblight_sethsv (HUE_AZURE, DEFAULT_SAT, DEFAULT_VAL);
 		break;
 	case _SYMBOL:
 		rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT);
-		rgblight_sethsv (HUE_YELLOW, DEFAULT_SAT, DEFAULT_VAL);		// Gold
+		rgblight_sethsv (HUE_YELLOW, DEFAULT_SAT, DEFAULT_VAL);
 		break;
 	case _TENGWAR:
 		rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT);
-		rgblight_sethsv (HUE_LIME, DEFAULT_SAT, DEFAULT_VAL);		// Chartreuse
+		rgblight_sethsv (HUE_LIME, DEFAULT_SAT, DEFAULT_VAL);
 		break;
 	case _GAME:
 		rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT);
-		rgblight_sethsv (HUE_MAGENTA, DEFAULT_SAT, DEFAULT_VAL);	// Magenta
+		rgblight_sethsv (HUE_MAGENTA, DEFAULT_SAT, DEFAULT_VAL);
+		break;
+	case _NUMERIC:
+		rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT);
+		rgblight_sethsv (HUE_CYAN, DEFAULT_SAT, DEFAULT_VAL);
+		break;
+	case _FUNCTION:
+		rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT);
+		rgblight_sethsv (HUE_GREEN, DEFAULT_SAT, DEFAULT_VAL);
+		break;
+	case _MOUSE:
+		rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT);
+		rgblight_sethsv (HUE_ORANGE, DEFAULT_SAT, DEFAULT_VAL);
+		break;
+	case _WINMAN:
+		rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT);
+		rgblight_sethsv (HUE_PURPLE, DEFAULT_SAT, DEFAULT_VAL);
+		break;
+	case _LAYER:
+		rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT);
+		rgblight_sethsv (0, 0, 0);
 		break;
 	}
+	
+	update_caps_lock_led();
 	return state;
-}
-
-// Caps Word Indication
-
-#define CAPS_WORD_COLOR HUE_RED, 255, 192	// Red
-#define LTHUMB_LED_INDEX 5
-#define RTHUMB_LED_INDEX 11
-
-void caps_word_set_user(bool active) {
-    if (active) {
-        rgblight_sethsv_at(CAPS_WORD_COLOR, LTHUMB_LED_INDEX);
-        rgblight_sethsv_at(CAPS_WORD_COLOR, RTHUMB_LED_INDEX);
-    } else {
-        rgblight_sethsv_at(rgblight_get_hue(), rgblight_get_sat(), rgblight_get_val(), LTHUMB_LED_INDEX);
-        rgblight_sethsv_at(rgblight_get_hue(), rgblight_get_sat(), rgblight_get_val(), RTHUMB_LED_INDEX);
-    }
 }

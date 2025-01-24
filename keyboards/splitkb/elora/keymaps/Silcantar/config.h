@@ -22,7 +22,12 @@
 #define UNICODE_TYPE_DELAY 10
 
 // LED Config
+#define SPLIT_LAYER_STATE_ENABLE
+#define SPLIT_TRANSPORT_MIRROR
+#define SPLIT_LED_STATE_ENABLE
 #define SPLIT_MODS_ENABLE
+#define RGBLIGHT_SPLIT
+//#define RGBLED_SPLIT { 6, 6 }
 #define RGBLIGHT_SLEEP
 
 // Caps Word
@@ -33,6 +38,3 @@
 
 // Select Word
 #define SELECT_WORD_TIMEOUT 2000
-
-// Combos
-#define COMBO_MUST_PRESS_IN_ORDER

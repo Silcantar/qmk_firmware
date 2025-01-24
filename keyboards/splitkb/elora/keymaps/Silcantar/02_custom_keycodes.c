@@ -11,6 +11,14 @@ enum custom_keycodes {
 	CK_LAYERDOWN,
 	CK_LAYERUP,
 
+// Layer Lock Keys
+	CK_LALTLOCK,
+	CK_RALTLOCK,
+	CK_LCTLLOCK,
+	CK_RCTLLOCK,
+	CK_LGUILOCK,
+	CK_RGUILOCK,
+
 // Special Characters
 // Whitespace
 	CK_NBSP,
@@ -34,6 +42,7 @@ enum custom_keycodes {
 	CK_MDASH,
 	CK_MICRO,
 	CK_EIGHTHNOTE,
+
 // AltGr
 	CK_LSAQUOTE,
 	CK_RSAQUOTE,
@@ -248,7 +257,7 @@ enum custom_keycodes {
 	CK_ARRSEF,
 	CK_TRI_D,
 	CK_TRI_DF,
-
+	
 // Emoji
 	CK_PENCIL,
 	CK_SCISSORS,

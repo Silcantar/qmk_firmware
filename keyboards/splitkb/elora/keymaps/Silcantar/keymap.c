@@ -5,8 +5,8 @@
 
 // Dependencies
 #include QMK_KEYBOARD_H
-//#include "features/custom_modified_keys.h"
 #include "features/select_word.h"
+#include "features/send_unicode_set.h"
 
 int current_highest_layer;
 
@@ -21,12 +21,19 @@ enum layers {
     _FUNCTION,
     _MOUSE,
     _WINMAN,
+	_LAYER,
 };
 
 // Sections
 #include "01_alias.c"
 
 #include "02_custom_keycodes.c"
+
+#include "03_key_overrides.c"
+
+#include "04_macros.c"
+
+#include "05_combos.c"
 
 #include "06_tapdance_setup.c"
 
@@ -37,14 +44,6 @@ enum layers {
 #include "09_encoder.c"
 
 #include "10_tapdance.c"
-
-//#include "03_modified_keys.c"
-
-#include "03_key_overrides.c"
-
-#include "04_macros.c"
-
-#include "05_combos.c"
 
 //#include "11_hand_swap.c"
 
