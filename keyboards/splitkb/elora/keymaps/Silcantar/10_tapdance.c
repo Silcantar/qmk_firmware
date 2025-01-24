@@ -220,11 +220,11 @@ void td_ques(tap_dance_state_t *state, void *user_data) {
 void td_quotes(tap_dance_state_t *state, void *user_data) {
 	if (state->count >= 2) {
 		if (SHIFT_ACTIVE) {
-			const uint8_t mods = GET_ALL_MODS;
+			//const uint8_t mods = GET_ALL_MODS;
 			CLEAR_SHIFT;
 			send_unicode_string("\"\"");
 			tap_code16(KC_LEFT);
-			set_mods(mods);
+			//set_mods(mods);
 		} else {
 			send_unicode_string("''");
 			tap_code16(KC_LEFT);

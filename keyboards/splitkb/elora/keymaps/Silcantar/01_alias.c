@@ -14,9 +14,11 @@
 // Default Layers
 #define DF_COLEMAK		DF(_COLEMAK)
 #define DF_QWERTY		DF(_QWERTY)
+
 // Layer Taps
 #define LAYERDOWN		LT(_LAYER, KC_0)
 #define LAYERUP			LT(_LAYER, KC_1)
+
 // Mod-Taps
 #define LALT_LYCLR		MT(MOD_LALT, KC_0)
 #define LGUI_ESC		MT(MOD_LGUI, KC_ESC)
@@ -24,6 +26,7 @@
 #define RCTL_TAB		MT(MOD_RCTL, KC_TAB)
 #define SH_SPACE		SH_T(KC_SPACE)
 #define KEYLOCK			MT(QK_LOCK, KC_CAPS)
+
 // One-Shot Mods
 #define OSM_LALT		OSM(MOD_LALT)
 #define OSM_RALT		OSM(MOD_RALT)
@@ -33,6 +36,7 @@
 #define OSM_RGUI		OSM(MOD_RGUI)
 #define OSM_LSFT		OSM(MOD_LSFT)
 #define OSM_RSFT		OSM(MOD_RSFT)
+
 // Mod Masks
 #define GET_ALL_MODS	(get_mods() | get_weak_mods() | get_oneshot_mods())
 #define MOD_MASK_RALT	MOD_BIT(KC_RALT)
@@ -41,6 +45,7 @@
 #define RALT_ACTIVE		(GET_ALL_MODS & MOD_MASK_RALT)
 #define RAS_ACTIVE		(GET_ALL_MODS & MOD_MASK_SHIFT & MOD_MASK_RALT)
 #define CLEAR_SHIFT		del_weak_mods(MOD_MASK_SHIFT); del_oneshot_mods(MOD_MASK_SHIFT); unregister_mods(MOD_MASK_SHIFT)
+
 // Commands
 // Function Layer
 #define CMD_TOP			C(KC_HOME)
@@ -64,8 +69,10 @@
 #define CMD_FIND		C(KC_F)
 #define CMD_REPL		C(KC_H)
 #define CMD_SELALL		C(KC_A)
+
 // Mouse & Media Layer
 #define CMD_MUTE_MIC	C(S(KC_M))
+
 // Window Management Layer
 #define FILES			LGUI(KC_E)
 #define MON_LEFT		LSG(KC_LEFT)
@@ -93,6 +100,7 @@
 #define GUI8			LGUI(KC_8)
 #define GUI9			LGUI(KC_9)
 #define GUI0			LGUI(KC_0)
+
 // One-Shot Layers
 #define OSL_NUMERIC		OSL(_NUMERIC)
 #define OSL_FUNCTION	OSL(_FUNCTION)
@@ -100,6 +108,7 @@
 #define OSL_WINMAN		OSL(_WINMAN)
 #define LALT_ENT		MT(MOD_LALT, KC_ENT)
 #define LSFT_SPACE		MT(MOD_LSFT, KC_SPACE)
+
 // Bottom Row Mods
 #define LALT_X			MT(MOD_LALT, KC_X)
 #define LCTL_V			MT(MOD_LCTL, KC_V)
@@ -109,7 +118,3 @@
 #define RSFT_K			MT(MOD_RSFT, KC_K)
 #define RCTL_COMMA		MT(MOD_RCTL, KC_COMMA)
 #define RALT_DOT		MT(MOD_RALT, KC_DOT)
-//#define CMD_COPY		C(KC_C)
-//#define CMD_PASTE		C(KC_V)
-#define AS_TAB			LSG(KC_TAB)
-#define A_TAB			LGUI(KC_TAB)

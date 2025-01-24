@@ -166,7 +166,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
 			case KC_V:			return send_unicode_set("", "", "ʌ", "Ʌ");		break;
 			case KC_C:			return send_unicode_set("", "", "ç", "Ç");		break;
 			case KC_D:			return send_unicode_set("", "", "ð", "Ð");		break;
-			case KC_UNDS:		return send_unicode_set("", "", "̄", "̱");		break;
+			case KC_MINUS:		return send_unicode_set("", "", "̄", "̱");		break;
 			case KC_H:			return send_unicode_set("", "", "ħ", "Ħ");		break;
 			case KC_K:			return send_unicode_set("", "", "ʔ", "ʕ");		break;
 			case KC_COMMA:		return send_unicode_set("", "", "̧", "̨");		break;
