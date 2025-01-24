@@ -29,9 +29,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[_COLEMAK] = LAYOUT_myr(
 		DM_REC1		, KC_GRAVE	, CK_INTBANG, TD_EXCLAMS, KC_AT		, TD_FSQUOTE,			  KC_NO		,	  KC_NO		,			  TD_FDQUOTE, KC_AMPR	, TD_QUES	, CK_NDASH	, CK_CHECK	, DM_PLY1,
 		LAYERDOWN	, KC_Q		, KC_W		, KC_F		, KC_P		, KC_B		,			  CK_COPY	,	  CK_PASTE	,			  KC_J		, KC_L		, KC_U		, KC_Y		, KC_Z		, LAYERUP,
-		LGUI_ESC	, KC_A		, KC_R		, KC_S		, KC_T		, KC_G		,			  KC_NO		,	  KC_NO		,			  KC_M		, KC_N		, KC_E		, KC_I		, KC_O		, OSM_RGUI,
-		KC_CAPS		, KC_X		, KC_V		, KC_C		, KC_D		, TD_QUOTES	, LALT_LYCLR, TD_MOUSE	,	  TD_WINMAN	, RCTL_TAB	, KC_MINUS	, KC_H		, KC_K		, KC_COMMA	, KC_DOT	, QK_REP,
-											  CK_COPY	, OSM_LCTL	, LSFT_ENT	, KC_SPACE	, TD_NUMERIC,	  TD_FUNC	, KC_BSPC	, OSM_RSFT	, OSM_RALT	, CK_PASTE	,
+		LGUI_ESC	, KC_A		, KC_R		, KC_S		, KC_T		, KC_G		,			  KC_NO		,	  KC_NO		,			  KC_M		, KC_N		, KC_E		, KC_I		, KC_O		, COLEMAK,
+		KC_CAPS		, KC_X		, KC_V		, KC_C		, KC_D		, TD_QUOTES	, LALT_TABL	, TD_MOUSE	,	  TD_WINMAN	, RALT_TAB	, KC_MINUS	, KC_H		, KC_K		, KC_COMMA	, KC_DOT	, KC_RGUI,
+											  CK_COPY	, OSM_LCTL	, LSFT_ENT	, KC_SPACE	, TD_NUMERIC,	  TD_FUNC	, KC_BSPC	, OSM_RSFT	, OSM_RCTL	, CK_PASTE	,
 	 
 		KC_NO		, KC_NO		, KC_NO		, KC_NO		,			  KC_NO		,			  KC_NO		,	  KC_NO		, KC_NO		, KC_NO		,			  KC_NO
 	),
@@ -64,9 +64,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[_QWERTY] = LAYOUT_myr(
 		KC_EQUAL	, KC_1		, KC_2		, KC_3		, KC_4		, KC_5		,			  KC_NO		,	  KC_NO		,			  KC_6		, KC_7		, KC_8		, KC_9		, KC_0		, KC_MINUS,
 		LAYERDOWN	, KC_Q		, KC_W		, KC_E		, KC_R		, KC_T		,			  CK_COPY	,	  CK_PASTE	,			  KC_Y		, KC_U		, KC_I		, KC_O		, KC_P		, LAYERUP,
-		LGUI_ESC	, KC_A		, KC_S		, KC_D		, KC_F		, KC_G		,			  KC_NO		,	  KC_NO		,			  KC_H		, KC_J		, KC_K		, KC_L		, KC_QUOTE	, OSM_RGUI,
-		KC_CAPS		, KC_Z		, KC_X		, KC_C		, KC_V		, KC_B		, LALT_LYCLR, TD_MOUSE	,	  TD_WINMAN	, RCTL_TAB	, KC_N		, KC_M		, KC_COMMA	, KC_DOT	, KC_SLASH	, QK_REP,
-											  CK_COPY	, OSM_LCTL	, LSFT_ENT	, KC_SPACE	, TD_NUMERIC,	  TD_FUNC	, KC_BSPC	, OSM_RSFT	, OSM_RALT	, CK_PASTE	,
+		LGUI_ESC	, KC_A		, KC_S		, KC_D		, KC_F		, KC_G		,			  KC_NO		,	  KC_NO		,			  KC_H		, KC_J		, KC_K		, KC_L		, KC_QUOTE	, COLEMAK,
+		KC_CAPS		, KC_Z		, KC_X		, KC_C		, KC_V		, KC_B		, LALT_TABL, TD_MOUSE	,	  TD_WINMAN	, RALT_TAB	, KC_N		, KC_M		, KC_COMMA	, KC_DOT	, KC_SLASH	, OSM_RGUI,
+											  CK_COPY	, OSM_LCTL	, LSFT_ENT	, KC_SPACE	, TD_NUMERIC,	  TD_FUNC	, KC_BSPC	, OSM_RSFT	, OSM_RCTL	, CK_PASTE	,
         
 		KC_NO		, KC_NO		, KC_NO		, KC_NO		,			  KC_NO		,			  KC_NO		,	  KC_NO		, KC_NO		, KC_NO		,			  KC_NO
 	),

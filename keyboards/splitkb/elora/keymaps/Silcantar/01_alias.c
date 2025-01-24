@@ -20,10 +20,10 @@
 #define LAYERUP			LT(_LAYER, KC_1)
 
 // Mod-Taps
-#define LALT_LYCLR		MT(MOD_LALT, KC_0)
+#define LALT_TABL		MT(MOD_LALT, KC_0)
 #define LGUI_ESC		MT(MOD_LGUI, KC_ESC)
 #define LSFT_ENT		MT(MOD_LSFT, KC_ENT)
-#define RCTL_TAB		MT(MOD_RCTL, KC_TAB)
+#define RALT_TAB		MT(MOD_RALT, KC_TAB)
 #define SH_SPACE		SH_T(KC_SPACE)
 #define KEYLOCK			MT(QK_LOCK, KC_CAPS)
 

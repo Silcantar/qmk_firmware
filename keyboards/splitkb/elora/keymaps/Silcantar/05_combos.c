@@ -55,10 +55,10 @@ const uint16_t PROGMEM combo_layerup_e[] = {CK_LAYERUP, KC_E, COMBO_END};
 const uint16_t PROGMEM combo_layerup_i[] = {CK_LAYERUP, KC_I, COMBO_END};
 const uint16_t PROGMEM combo_layerup_o[] = {CK_LAYERUP, KC_O, COMBO_END};
 
-const uint16_t PROGMEM lalt_lock[] = {KC_CAPS, LALT_LYCLR, COMBO_END};
-const uint16_t PROGMEM ralt_lock[] = {KC_CAPS, OSM_RALT, COMBO_END};
+const uint16_t PROGMEM lalt_lock[] = {KC_CAPS, LALT_TABL, COMBO_END};
+const uint16_t PROGMEM ralt_lock[] = {KC_CAPS, RALT_TAB, COMBO_END};
 const uint16_t PROGMEM lctl_lock[] = {KC_CAPS, OSM_LCTL, COMBO_END};
-const uint16_t PROGMEM rctl_lock[] = {KC_CAPS, RCTL_TAB, COMBO_END};
+const uint16_t PROGMEM rctl_lock[] = {KC_CAPS, OSM_RCTL, COMBO_END};
 const uint16_t PROGMEM lgui_lock[] = {KC_CAPS, LGUI_ESC, COMBO_END};
 const uint16_t PROGMEM rgui_lock[] = {KC_CAPS, OSM_RGUI, COMBO_END};
 

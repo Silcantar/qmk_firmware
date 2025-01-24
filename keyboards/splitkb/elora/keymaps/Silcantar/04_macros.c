@@ -31,9 +31,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
 				break;
 
 		// Layer Cycle Keys
-			case LALT_LYCLR:
+			case LALT_TABL:
 				if (record->tap.count) {
-					layer_clear();
+					tap_code16(S(KC_TAB));	
 					return false;
 				}
 				break;
@@ -129,7 +129,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
 	// Whitespace
 			case KC_SPACE:		return send_unicode_set("", "", " ", " ");	break;
 			//case LSFT_ENT:		if (RALT_ACTIVE) { SEND_STRING(SS_DOWN(X_RALT) "u000a\n" SS_UP(X_RALT)); return false; } else { return true; } break;
-			case RCTL_TAB:		return send_unicode_set("", "", "    ", "    ");	break;
+			case RALT_TAB:		return send_unicode_set("", "", "    ", "    ");	break;
 
 	// Colemak
 		// Row 1
