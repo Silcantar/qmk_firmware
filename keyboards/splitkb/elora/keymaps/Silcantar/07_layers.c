@@ -31,7 +31,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 		LAYERDOWN	, TD_QUOTES	, KC_W		, KC_F		, KC_P		, KC_B		,			  CK_COPY	,	  CK_PASTE	,			  KC_J		, KC_L		, KC_U		, KC_Y		, KC_UNDS	, LAYERUP,
 		LGUI_ESC	, LGUI_A	, LALT_R	, LCTL_S	, LSFT_KC_T	, KC_G		,			  KC_NO		,	  KC_NO		,			  RGUI_M	, RSFT_N	, RCTL_E	, LALT_I	, RGUI_O	, COLEMAK,
 		KC_CAPS		, UNDO_X	, CUT_V		, COPY_C	, PASTE_D	, KC_Q		, LALT_TABL	, TD_MOUSE	,	  TD_WINMAN	, RALT_TAB	, KC_Z		, KC_H		, KC_K		, KC_COMMA	, KC_DOT	, KC_RGUI,
-											  CK_COPY	, OSM_LCTL	, LSFT_ENT	, SH_SPACE	, TD_NUMERIC,	  TD_FUNC	, KC_BSPC	, OSM_RSFT	, RCTL_DEL	, CK_PASTE	,
+											  CK_COPY	, OSM_LCTL	, LSFT_ENT	, KC_SPACE	, TD_NUMERIC,	  TD_FUNC	, KC_BSPC	, OSM_RSFT	, RCTL_DEL	, CK_PASTE	,
 	 
 		KC_NO		, KC_NO		, KC_NO		, KC_NO		,			  KC_NO		,			  KC_NO		,	  KC_NO		, KC_NO		, KC_NO		,			  KC_NO
 	),
