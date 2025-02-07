@@ -18,164 +18,313 @@
  * Criteria for "good placement" of a tap dance key:
  *  Not a key that is hit frequently in a sentence
  *  Not a key that is used frequently to double tap, for example 'tab' is often double tapped in a terminal, or
- *    in a web form. So 'tab' would be a poor choice for a tap dance.
+ *	in a web form. So 'tab' would be a poor choice for a tap dance.
  *  Letters used in common words as a double. For example 'p' in 'pepper'. If a tap dance function existed on the
- *    letter 'p', the word 'pepper' would be quite frustrating to type.
+ *	letter 'p', the word 'pepper' would be quite frustrating to type.
  *
  * For the third point, there does exist the 'TD_DOUBLE_SINGLE_TAP', however this is not fully tested
  *
  */
 td_state_t cur_dance(tap_dance_state_t *state) {
-    if (state->count == 1) {
-        if (state->interrupted || !state->pressed) return TD_SINGLE_TAP;
-        // Key has not been interrupted, but the key is still held. Means you want to send a 'HOLD'.
-        else return TD_SINGLE_HOLD;
-    } else if (state->count == 2) {
-        // TD_DOUBLE_SINGLE_TAP is to distinguish between typing "pepper", and actually wanting a double tap
-        // action when hitting 'pp'. Suggested use case for this return value is when you want to send two
-        // keystrokes of the key, and not the 'double tap' action/macro.
-        if (state->interrupted) return TD_DOUBLE_SINGLE_TAP;
-        else if (state->pressed) return TD_DOUBLE_HOLD;
-        else return TD_DOUBLE_TAP;
-    }
+	if (state->count == 1) {
+		if (state->interrupted || !state->pressed) return TD_SINGLE_TAP;
+		// Key has not been interrupted, but the key is still held. Means you want to send a 'HOLD'.
+		else return TD_SINGLE_HOLD;
+	} else if (state->count == 2) {
+		// TD_DOUBLE_SINGLE_TAP is to distinguish between typing "pepper", and actually wanting a double tap
+		// action when hitting 'pp'. Suggested use case for this return value is when you want to send two
+		// keystrokes of the key, and not the 'double tap' action/macro.
+		if (state->interrupted) return TD_DOUBLE_SINGLE_TAP;
+		else if (state->pressed) return TD_DOUBLE_HOLD;
+		else return TD_DOUBLE_TAP;
+	}
 
-    // Assumes no one is trying to type the same letter three times (at least not quickly).
-    // If your tap dance key is 'KC_W', and you want to type "www." quickly - then you will need to add
-    // an exception here to return a 'TD_TRIPLE_SINGLE_TAP', and define that enum just like 'TD_DOUBLE_SINGLE_TAP'
-    if (state->count == 3) {
-        if (state->interrupted || !state->pressed) return TD_TRIPLE_TAP;
-        else return TD_TRIPLE_HOLD;
-    } else return TD_UNKNOWN;
+	// Assumes no one is trying to type the same letter three times (at least not quickly).
+	// If your tap dance key is 'KC_W', and you want to type "www." quickly - then you will need to add
+	// an exception here to return a 'TD_TRIPLE_SINGLE_TAP', and define that enum just like 'TD_DOUBLE_SINGLE_TAP'
+	if (state->count == 3) {
+		if (state->interrupted || !state->pressed) return TD_TRIPLE_TAP;
+		else return TD_TRIPLE_HOLD;
+	} else return TD_UNKNOWN;
 }
 
-// Create an instance of 'td_tap_t' for the 'numeric' tap dance.
+// Create an instance of 'td_tap_t' for the 'swap' tap dance.
 /*static td_tap_t td_swap_tap_state = {
-    .is_press_action = true,
-    .state = TD_NONE
+	.is_press_action = true,
+	.state = TD_NONE
 };*/
 
 // Create an instance of 'td_tap_t' for the 'numeric' tap dance.
 static td_tap_t td_numeric_tap_state = {
-    .is_press_action = true,
-    .state = TD_NONE
+	.is_press_action = true,
+	.state = TD_NONE
 };
 
-// Create an instance of 'td_tap_t' for the 'numeric' tap dance.
+// Create an instance of 'td_tap_t' for the 'function' tap dance.
 static td_tap_t td_function_tap_state = {
-    .is_press_action = true,
-    .state = TD_NONE
+	.is_press_action = true,
+	.state = TD_NONE
 };
 
-// Create an instance of 'td_tap_t' for the 'numeric' tap dance.
+// Create an instance of 'td_tap_t' for the 'mouse' tap dance.
 static td_tap_t td_mouse_tap_state = {
-    .is_press_action = true,
-    .state = TD_NONE
+	.is_press_action = true,
+	.state = TD_NONE
 };
 
-// Create an instance of 'td_tap_t' for the 'numeric' tap dance.
+// Create an instance of 'td_tap_t' for the 'winman' tap dance.
 static td_tap_t td_winman_tap_state = {
-    .is_press_action = true,
-    .state = TD_NONE
+	.is_press_action = true,
+	.state = TD_NONE
+};
+
+// Create an instance of 'td_tap_t' for the 'angles' tap dance.
+static td_tap_t td_angles_tap_state = {
+	.is_press_action = true,
+	.state = TD_NONE
+};
+
+// Create an instance of 'td_tap_t' for the 'bracks' tap dance.
+static td_tap_t td_bracks_tap_state = {
+	.is_press_action = true,
+	.state = TD_NONE
+};
+
+// Create an instance of 'td_tap_t' for the 'braces' tap dance.
+static td_tap_t td_braces_tap_state = {
+	.is_press_action = true,
+	.state = TD_NONE
+};
+
+// Create an instance of 'td_tap_t' for the 'parens' tap dance.
+static td_tap_t td_parens_tap_state = {
+	.is_press_action = true,
+	.state = TD_NONE
 };
 
 /*void td_swap_finished(tap_dance_state_t *state, void *user_data) {
-    td_swap_tap_state.state = cur_dance(state);
-    switch (td_swap_tap_state.state) {
-        case TD_SINGLE_TAP: layer_clear(); break;
-        case TD_SINGLE_HOLD: swap_hands_on(); break;
-        case TD_DOUBLE_TAP: swap_hands_toggle(); break;
-        default: break;
-    }
+	td_swap_tap_state.state = cur_dance(state);
+	switch (td_swap_tap_state.state) {
+		case TD_SINGLE_TAP: layer_clear(); break;
+		case TD_SINGLE_HOLD: swap_hands_on(); break;
+		case TD_DOUBLE_TAP: swap_hands_toggle(); break;
+		default: break;
+	}
 }
 
 void td_swap_reset(tap_dance_state_t *state, void *user_data) {
-    switch (td_swap_tap_state.state) {
-        case TD_SINGLE_TAP: break;
-        case TD_SINGLE_HOLD: swap_hands_off(); break;
-        case TD_DOUBLE_TAP: break;
-        default: break;
-    }
-    td_numeric_tap_state.state = TD_NONE;
+	switch (td_swap_tap_state.state) {
+		case TD_SINGLE_TAP: break;
+		case TD_SINGLE_HOLD: swap_hands_off(); break;
+		case TD_DOUBLE_TAP: break;
+		default: break;
+	}
+	td_numeric_tap_state.state = TD_NONE;
 }*/
 
 void td_numeric_finished(tap_dance_state_t *state, void *user_data) {
-    td_numeric_tap_state.state = cur_dance(state);
-    switch (td_numeric_tap_state.state) {
-        case TD_SINGLE_TAP: set_oneshot_layer(_NUMERIC, ONESHOT_START); break;
-        case TD_SINGLE_HOLD: layer_on(_NUMERIC); break;
-        case TD_DOUBLE_TAP: layer_invert(_NUMERIC); break;
-        default: break;
-    }
+	td_numeric_tap_state.state = cur_dance(state);
+	switch (td_numeric_tap_state.state) {
+		case TD_SINGLE_TAP: set_oneshot_layer(_NUMERIC, ONESHOT_START); break;
+		case TD_SINGLE_HOLD: layer_on(_NUMERIC); break;
+		case TD_DOUBLE_TAP: layer_invert(_NUMERIC); break;
+		default: break;
+	}
 }
 
 void td_numeric_reset(tap_dance_state_t *state, void *user_data) {
-    switch (td_numeric_tap_state.state) {
-        case TD_SINGLE_TAP: clear_oneshot_layer_state(ONESHOT_PRESSED); break;
-        case TD_SINGLE_HOLD: layer_off(_NUMERIC); break;
-        case TD_DOUBLE_TAP: break;
-        default: break;
-    }
-    td_numeric_tap_state.state = TD_NONE;
+	switch (td_numeric_tap_state.state) {
+		case TD_SINGLE_TAP: clear_oneshot_layer_state(ONESHOT_PRESSED); break;
+		case TD_SINGLE_HOLD: layer_off(_NUMERIC); break;
+		case TD_DOUBLE_TAP: break;
+		default: break;
+	}
+	td_numeric_tap_state.state = TD_NONE;
 }
 
 void td_func_finished(tap_dance_state_t *state, void *user_data) {
-    td_function_tap_state.state = cur_dance(state);
-    switch (td_function_tap_state.state) {
-        case TD_SINGLE_TAP: set_oneshot_layer(_FUNCTION, ONESHOT_START); break;
-        case TD_SINGLE_HOLD: layer_on(_FUNCTION); break;
-        case TD_DOUBLE_TAP: layer_invert(_FUNCTION); break;
-        default: break;
-    }
+	td_function_tap_state.state = cur_dance(state);
+	switch (td_function_tap_state.state) {
+		case TD_SINGLE_TAP: set_oneshot_layer(_FUNCTION, ONESHOT_START); break;
+		case TD_SINGLE_HOLD: layer_on(_FUNCTION); break;
+		case TD_DOUBLE_TAP: layer_invert(_FUNCTION); break;
+		default: break;
+	}
 }
 
 void td_func_reset(tap_dance_state_t *state, void *user_data) {
-    switch (td_function_tap_state.state) {
-        case TD_SINGLE_TAP: clear_oneshot_layer_state(ONESHOT_PRESSED); break;
-        case TD_SINGLE_HOLD: layer_off(_FUNCTION); break;
-        case TD_DOUBLE_TAP: break;
-        default: break;
-    }
-    td_function_tap_state.state = TD_NONE;
+	switch (td_function_tap_state.state) {
+		case TD_SINGLE_TAP: clear_oneshot_layer_state(ONESHOT_PRESSED); break;
+		case TD_SINGLE_HOLD: layer_off(_FUNCTION); break;
+		case TD_DOUBLE_TAP: break;
+		default: break;
+	}
+	td_function_tap_state.state = TD_NONE;
 }
 
 void td_mouse_finished(tap_dance_state_t *state, void *user_data) {
-    td_mouse_tap_state.state = cur_dance(state);
-    switch (td_mouse_tap_state.state) {
-        case TD_SINGLE_TAP: set_oneshot_layer(_MOUSE, ONESHOT_START); break;
-        case TD_SINGLE_HOLD: layer_on(_MOUSE); break;
-        case TD_DOUBLE_TAP: layer_invert(_MOUSE); break;
-        default: break;
-    }
+	td_mouse_tap_state.state = cur_dance(state);
+	switch (td_mouse_tap_state.state) {
+		case TD_SINGLE_TAP: set_oneshot_layer(_MOUSE, ONESHOT_START); break;
+		case TD_SINGLE_HOLD: layer_on(_MOUSE); break;
+		case TD_DOUBLE_TAP: layer_invert(_MOUSE); break;
+		default: break;
+	}
 }
 
 void td_mouse_reset(tap_dance_state_t *state, void *user_data) {
-    switch (td_mouse_tap_state.state) {
-        case TD_SINGLE_TAP: clear_oneshot_layer_state(ONESHOT_PRESSED); break;
-        case TD_SINGLE_HOLD: layer_off(_MOUSE); break;
-        case TD_DOUBLE_TAP: break;
-        default: break;
-    }
-    td_mouse_tap_state.state = TD_NONE;
+	switch (td_mouse_tap_state.state) {
+		case TD_SINGLE_TAP: clear_oneshot_layer_state(ONESHOT_PRESSED); break;
+		case TD_SINGLE_HOLD: layer_off(_MOUSE); break;
+		case TD_DOUBLE_TAP: break;
+		default: break;
+	}
+	td_mouse_tap_state.state = TD_NONE;
 }
 
 void td_winman_finished(tap_dance_state_t *state, void *user_data) {
-    td_winman_tap_state.state = cur_dance(state);
-    switch (td_winman_tap_state.state) {
-        case TD_SINGLE_TAP: set_oneshot_layer(_WINMAN, ONESHOT_START); break;
-        case TD_SINGLE_HOLD: layer_on(_WINMAN); break;
-        case TD_DOUBLE_TAP: layer_invert(_WINMAN); break;
-        default: break;
-    }
+	td_winman_tap_state.state = cur_dance(state);
+	switch (td_winman_tap_state.state) {
+		case TD_SINGLE_TAP: set_oneshot_layer(_WINMAN, ONESHOT_START); break;
+		case TD_SINGLE_HOLD: layer_on(_WINMAN); break;
+		case TD_DOUBLE_TAP: layer_invert(_WINMAN); break;
+		default: break;
+	}
 }
 
 void td_winman_reset(tap_dance_state_t *state, void *user_data) {
-    switch (td_winman_tap_state.state) {
-        case TD_SINGLE_TAP: clear_oneshot_layer_state(ONESHOT_PRESSED); break;
-        case TD_SINGLE_HOLD: layer_off(_WINMAN); break;
-        case TD_DOUBLE_TAP: break;
-        default: break;
-    }
-    td_winman_tap_state.state = TD_NONE;
+	switch (td_winman_tap_state.state) {
+		case TD_SINGLE_TAP: clear_oneshot_layer_state(ONESHOT_PRESSED); break;
+		case TD_SINGLE_HOLD: layer_off(_WINMAN); break;
+		case TD_DOUBLE_TAP: break;
+		default: break;
+	}
+	td_winman_tap_state.state = TD_NONE;
+}
+
+// Macros with hold
+void td_angles_finished(tap_dance_state_t *state, void *user_data) {
+	td_angles_tap_state.state = cur_dance(state);
+	switch (td_angles_tap_state.state) {
+		case TD_SINGLE_TAP: 
+			if (SHIFT_ACTIVE) {
+				send_unicode_string("≤");
+			} else {
+				tap_code16(KC_LT);
+			}
+			break;
+		case TD_SINGLE_HOLD:
+			register_code(KC_LGUI);
+			break;
+		case TD_DOUBLE_TAP:
+			send_string("<>");
+			tap_code16(KC_LEFT);
+			break;
+		default: break;
+	}
+}
+
+void td_angles_reset(tap_dance_state_t *state, void *user_data) {
+	switch (td_angles_tap_state.state) {
+		case TD_SINGLE_TAP:  break;
+		case TD_SINGLE_HOLD: unregister_code(KC_LGUI); break;
+		case TD_DOUBLE_TAP: break;
+		default: break;
+	}
+	td_angles_tap_state.state = TD_NONE;
+}
+
+void td_bracks_finished(tap_dance_state_t *state, void *user_data) {
+	td_bracks_tap_state.state = cur_dance(state);
+	switch (td_bracks_tap_state.state) {
+		case TD_SINGLE_TAP: 
+			if (SHIFT_ACTIVE) {
+				tap_code16(KC_RBRC);
+			} else {
+				tap_code16(KC_LBRC);
+			}
+			break;
+		case TD_SINGLE_HOLD:
+			register_code(KC_LALT);
+			break;
+		case TD_DOUBLE_TAP:
+			send_string("[]");
+			tap_code16(KC_LEFT);
+			break;
+		default: break;
+	}
+}
+
+void td_bracks_reset(tap_dance_state_t *state, void *user_data) {
+	switch (td_bracks_tap_state.state) {
+		case TD_SINGLE_TAP:  break;
+		case TD_SINGLE_HOLD: unregister_code(KC_LALT); break;
+		case TD_DOUBLE_TAP: break;
+		default: break;
+	}
+	td_bracks_tap_state.state = TD_NONE;
+}
+
+void td_braces_finished(tap_dance_state_t *state, void *user_data) {
+	td_braces_tap_state.state = cur_dance(state);
+	switch (td_braces_tap_state.state) {
+		case TD_SINGLE_TAP: 
+			if (SHIFT_ACTIVE) {
+				tap_code16(KC_RCBR);
+			} else {
+				tap_code16(KC_LCBR);
+			}
+			break;
+		case TD_SINGLE_HOLD:
+			register_code(KC_LCTL);
+			break;
+		case TD_DOUBLE_TAP:
+			send_string("{}");
+			tap_code16(KC_LEFT);
+			break;
+		default: break;
+	}
+}
+
+void td_braces_reset(tap_dance_state_t *state, void *user_data) {
+	switch (td_braces_tap_state.state) {
+		case TD_SINGLE_TAP:  break;
+		case TD_SINGLE_HOLD: unregister_code(KC_LCTL); break;
+		case TD_DOUBLE_TAP: break;
+		default: break;
+	}
+	td_braces_tap_state.state = TD_NONE;
+}
+
+void td_parens_finished(tap_dance_state_t *state, void *user_data) {
+	td_parens_tap_state.state = cur_dance(state);
+	switch (td_parens_tap_state.state) {
+		case TD_SINGLE_TAP: 
+			if (SHIFT_ACTIVE) {
+				tap_code16(KC_RPRN);
+			} else {
+				tap_code16(KC_LPRN);
+			}
+			break;
+		case TD_SINGLE_HOLD:
+			register_code(KC_LSFT);
+			break;
+		case TD_DOUBLE_TAP:
+			send_string("()");
+			tap_code16(KC_LEFT);
+			break;
+		default: break;
+	}
+}
+
+void td_parens_reset(tap_dance_state_t *state, void *user_data) {
+	switch (td_parens_tap_state.state) {
+		case TD_SINGLE_TAP:  break;
+		case TD_SINGLE_HOLD: unregister_code(KC_LSFT); break;
+		case TD_DOUBLE_TAP: break;
+		default: break;
+	}
+	td_parens_tap_state.state = TD_NONE;
 }
 
 // Macros
@@ -254,50 +403,6 @@ void td_pipes(tap_dance_state_t *state, void *user_data) {
 	}
 }
 
-void td_angles(tap_dance_state_t *state, void *user_data) {
-	if (state->count >= 2) {
-		send_unicode_string("<>");
-		tap_code16(KC_LEFT);
-	} else if (SHIFT_ACTIVE) {
-		send_unicode_string("≤");
-	} else {
-		tap_code16(KC_LT);
-	}
-}
-
-void td_bracks(tap_dance_state_t *state, void *user_data) {
-	if (state->count >= 2) {
-		send_unicode_string("[]");
-		tap_code16(KC_LEFT);
-	} else if (SHIFT_ACTIVE) {
-		send_unicode_string("]");
-	} else {
-		tap_code16(KC_LBRC);
-	}
-}
-
-void td_braces(tap_dance_state_t *state, void *user_data) {
-	if (state->count >= 2) {
-		send_unicode_string("{}");
-		tap_code16(KC_LEFT);
-	} else if (SHIFT_ACTIVE) {
-		tap_code16(KC_RCBR);
-	} else {
-		tap_code16(KC_LCBR);
-	}
-}
-
-void td_parens(tap_dance_state_t *state, void *user_data) {
-	if (state->count >= 2) {
-		send_unicode_string("()");
-		tap_code16(KC_LEFT);
-	} else if (SHIFT_ACTIVE) {
-		tap_code16(KC_RPRN);
-	} else {
-		tap_code16(KC_LPRN);
-	}
-}
-
 void td_pascomm(tap_dance_state_t *state, void *user_data) {
 	if (state->count >= 2) {
 		send_unicode_string("(**)");
@@ -341,6 +446,12 @@ tap_dance_action_t tap_dance_actions[] = {
 	[_TD_FUNC]		= ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_func_finished, td_func_reset),
 	[_TD_MOUSE]		= ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_mouse_finished, td_mouse_reset),
 	[_TD_WINMAN]	= ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_winman_finished, td_winman_reset),
+
+	// Macros with hold
+	[_ANGLES]		= ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_angles_finished, td_angles_reset),
+	[_BRACKS]		= ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_parens_finished, td_bracks_reset),
+	[_BRACES]		= ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_braces_finished, td_braces_reset),
+	[_PARENS]		= ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_parens_finished, td_parens_reset),
 	
 	// Macros
 	[_EXCLAMS]		= ACTION_TAP_DANCE_FN(td_exclams),
@@ -350,10 +461,6 @@ tap_dance_action_t tap_dance_actions[] = {
 	[_QUOTES]		= ACTION_TAP_DANCE_FN(td_quotes),
 	[_USCORES]		= ACTION_TAP_DANCE_FN(td_uscores),
 	[_PIPES]		= ACTION_TAP_DANCE_FN(td_pipes),
-	[_ANGLES]		= ACTION_TAP_DANCE_FN(td_angles),
-	[_BRACES]		= ACTION_TAP_DANCE_FN(td_braces),
-	[_PARENS]		= ACTION_TAP_DANCE_FN(td_parens),
-	[_BRACKS]		= ACTION_TAP_DANCE_FN(td_bracks),
 	[_PASCOMM]		= ACTION_TAP_DANCE_FN(td_pascomm),
 	[_STARS]		= ACTION_TAP_DANCE_FN(td_stars),
 	[_CCOMM]		= ACTION_TAP_DANCE_FN(td_ccomm),

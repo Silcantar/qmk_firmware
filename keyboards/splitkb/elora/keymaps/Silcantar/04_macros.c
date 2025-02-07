@@ -13,6 +13,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
 
 	if (record->event.pressed) {
 		switch (keycode) {
+			
+		// Tap Overrides
 			case CK_COPY:
 				if (SHIFT_ACTIVE) {
 					tap_code16(C(KC_X));
@@ -29,15 +31,58 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
 				}
 				return false;
 				break;
-
-		// Layer Cycle Keys
 			case LALT_TABL:
 				if (record->tap.count) {
-					tap_code16(S(KC_TAB));	
+					tap_code16(S(KC_TAB));
 					return false;
 				}
 				break;
 
+		// Hold Overrides
+			case RSFT_NEW:
+				if (!record->tap.count && record->event.pressed) {
+					tap_code16(C(KC_N));
+					return false;
+				}
+				break;
+			case LALT_SAVE:
+				if (!record->tap.count && record->event.pressed) {
+					tap_code16(C(KC_S));
+					return false;
+				}
+				break;
+			case RGUI_OPEN:
+				if (!record->tap.count && record->event.pressed) {
+					tap_code16(C(KC_O));
+					return false;
+				}
+				break;
+			case UNDO_X:
+				if (!record->tap.count && record->event.pressed) {
+					tap_code16(C(KC_Z));
+					return false;
+				}
+				break;
+			case CUT_V:
+				if (!record->tap.count && record->event.pressed) {
+					tap_code16(C(KC_X));
+					return false;
+				}
+				break;
+			case COPY_C:
+				if (!record->tap.count && record->event.pressed) {
+					tap_code16(C(KC_C));
+					return false;
+				}
+				break;
+			case PASTE_D:
+				if (!record->tap.count && record->event.pressed) {
+					tap_code16(C(KC_V));
+					return false;
+				}
+				break;
+
+		// Layer Cycle Keys
 			case LAYERDOWN:
 				if (record->tap.count) {
 					current_layer = get_highest_layer(layer_state);

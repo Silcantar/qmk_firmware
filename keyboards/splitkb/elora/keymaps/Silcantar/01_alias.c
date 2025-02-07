@@ -19,11 +19,12 @@
 #define LAYERDOWN		LT(_LAYER, KC_0)
 #define LAYERUP			LT(_LAYER, KC_1)
 
-// Mod-Taps
+// Thumb Mod-Taps
 #define LALT_TABL		MT(MOD_LALT, KC_0)
 #define LGUI_ESC		MT(MOD_LGUI, KC_ESC)
 #define LSFT_ENT		MT(MOD_LSFT, KC_ENT)
-#define RALT_TAB		MT(MOD_RALT, KC_TAB)
+#define RALT_TAB		MT(MOD_RCTL, KC_TAB)
+#define RALT_DEL		MT(MOD_RALT, KC_DEL)
 #define SH_SPACE		SH_T(KC_SPACE)
 #define KEYLOCK			MT(QK_LOCK, KC_CAPS)
 
@@ -109,6 +110,29 @@
 #define LALT_ENT		MT(MOD_LALT, KC_ENT)
 #define LSFT_SPACE		MT(MOD_LSFT, KC_SPACE)
 
+// Home Row Mods
+	// Colemak
+#define LGUI_A			MT(MOD_LGUI, KC_A)
+#define LALT_R			MT(MOD_LALT, KC_R)
+#define LCTL_S			MT(MOD_LCTL, KC_S)
+#define LSFT_KC_T		MT(MOD_LSFT, KC_T)
+#define RSFT_N			MT(MOD_RSFT, KC_N)
+#define RCTL_E			MT(MOD_RCTL, KC_E)
+#define LALT_I			MT(MOD_RALT, KC_I)
+#define RGUI_O			MT(MOD_RGUI, KC_O)
+
+	// Numeric
+#define RSFT_4			MT(MOD_RSFT, KC_4)
+#define RCTL_5			MT(MOD_RCTL, KC_5)
+#define LALT_6			MT(MOD_RALT, KC_6)
+#define RGUI_0			MT(MOD_RGUI, KC_0)
+
+	// Function
+#define RSFT_NEW		MT(MOD_RSFT, KC_NO)
+#define RCTL_EDIT		MT(MOD_RCTL, KC_F2)
+#define LALT_SAVE		MT(MOD_LALT, KC_NO)
+#define RGUI_OPEN		MT(MOD_RGUI, KC_NO)
+
 // Bottom Row Mods
 #define LALT_X			MT(MOD_LALT, KC_X)
 #define LCTL_V			MT(MOD_LCTL, KC_V)
@@ -118,3 +142,43 @@
 #define RSFT_K			MT(MOD_RSFT, KC_K)
 #define RCTL_COMMA		MT(MOD_RCTL, KC_COMMA)
 #define RALT_DOT		MT(MOD_RALT, KC_DOT)
+
+// Bottom Row Hold-Tap
+#define UNDO_X		LT(0, KC_X)
+#define CUT_V		LT(0, KC_V)
+#define COPY_C		LT(0, KC_C)
+#define PASTE_D		LT(0, KC_D)
+
+// Tapping Term Configuration
+#define THUMB_TAP_TERM	TAPPING_TERM + 0
+#define INDEX_TAP_TERM	TAPPING_TERM - 50
+#define MIDDLE_TAP_TERM	TAPPING_TERM + 0
+#define RING_TAP_TERM	TAPPING_TERM + 50
+#define PINKY_TAP_TERM	TAPPING_TERM + 50
+
+uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+	case LSFT_KC_T:
+	case RSFT_N:
+	case RSFT_4:
+	case RSFT_NEW:
+		return INDEX_TAP_TERM;
+	case LCTL_S:
+	case RCTL_E:
+	case RCTL_5:
+	case RCTL_EDIT:
+		return MIDDLE_TAP_TERM;
+	case LALT_R:
+	case LALT_I:
+	case LALT_6:
+	case LALT_SAVE:
+		return RING_TAP_TERM;
+	case LGUI_A:
+	case RGUI_O:
+	case RGUI_0:
+	case RGUI_OPEN:
+		return PINKY_TAP_TERM;
+	default:
+		return THUMB_TAP_TERM;
+  }
+}

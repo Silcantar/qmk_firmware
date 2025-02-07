@@ -11,17 +11,17 @@
 int current_highest_layer;
 
 enum layers {
-    _COLEMAK = 0,
-    _QWERTY,
-    _GREEK,
-    _SYMBOL,
-    _TENGWAR,
-    _GAME,
-    _NUMERIC,
-    _FUNCTION,
-    _MOUSE,
-    _WINMAN,
-	_LAYER,
+  _COLEMAK = 0,
+  _QWERTY,
+  _GREEK,
+  _SYMBOL,
+  _TENGWAR,
+  _GAME,
+  _NUMERIC,
+  _FUNCTION,
+  _MOUSE,
+  _WINMAN,
+  _LAYER,
 };
 
 // Sections

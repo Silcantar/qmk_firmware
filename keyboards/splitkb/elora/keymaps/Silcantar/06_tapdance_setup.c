@@ -49,6 +49,11 @@ enum {
 #define TD_MOUSE	TD(_TD_MOUSE)
 #define TD_WINMAN	TD(_TD_WINMAN)
 
+#define TD_ANGLES	TD(_ANGLES)
+#define TD_BRACKS	TD(_BRACKS)
+#define TD_BRACES	TD(_BRACES)
+#define TD_PARENS	TD(_PARENS)
+
 #define TD_EXCLAMS	TD(_EXCLAMS)
 #define TD_FSQUOTE	TD(_FSQUOTE)
 #define TD_FDQUOTE	TD(_FDQUOTE)
@@ -56,10 +61,6 @@ enum {
 #define TD_QUOTES	TD(_QUOTES)
 #define TD_USCORES	TD(_USCORES)
 #define TD_PIPES	TD(_PIPES)
-#define TD_ANGLES	TD(_ANGLES)
-#define TD_BRACES	TD(_BRACES)
-#define TD_PARENS	TD(_PARENS)
-#define TD_BRACKS	TD(_BRACKS)
 #define TD_PASCOMM	TD(_PASCOMM)
 #define TD_STARS	TD(_STARS)
 #define TD_CCOMM	TD(_CCOMM)
@@ -82,3 +83,15 @@ void td_mouse_reset(tap_dance_state_t *state, void *user_data);
 
 void td_winman_finished(tap_dance_state_t *state, void *user_data);
 void td_winman_reset(tap_dance_state_t *state, void *user_data);
+
+void td_angles_finished(tap_dance_state_t *state, void *user_data);
+void td_angles_reset(tap_dance_state_t *state, void *user_data);
+
+void td_bracks_finished(tap_dance_state_t *state, void *user_data);
+void td_bracks_reset(tap_dance_state_t *state, void *user_data);
+
+void td_braces_finished(tap_dance_state_t *state, void *user_data);
+void td_braces_reset(tap_dance_state_t *state, void *user_data);
+
+void td_parens_finished(tap_dance_state_t *state, void *user_data);
+void td_parens_reset(tap_dance_state_t *state, void *user_data);
