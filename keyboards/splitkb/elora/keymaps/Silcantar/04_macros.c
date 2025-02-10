@@ -17,41 +17,41 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
 		// Tap Overrides
 			case CK_COPY:
 				if (SHIFT_ACTIVE) {
-					tap_code16(C(KC_X));
+					tap_code16(CMD_CUT);
 				} else {
-					tap_code16(C(KC_C));
+					tap_code16(CMD_COPY);
 				}
 				return false;
 				break;
 			case CK_PASTE:
 				if (SHIFT_ACTIVE) {
-					tap_code16(C(S(KC_V)));
+					tap_code16(CMD_PASTE_SP);
 				} else {
-					tap_code16(C(KC_V));
+					tap_code16(CMD_PASTE);
 				}
 				return false;
 				break;
-			case LALT_TABL:
+			case RALT_TABL:
 				if (record->tap.count) {
-					tap_code16(S(KC_TAB));
+					tap_code16(KC_TABL);
 					return false;
 				}
 				break;
 			case RSFT_NEW:
 				if (record->tap.count) {
-					tap_code16(C(KC_N));
+					tap_code16(CMD_NEW);
 					return false;
 				}
 				break;
 			case LALT_SAVE:
 				if (record->tap.count) {
-					tap_code16(C(KC_S));
+					tap_code16(CMD_SAVE);
 					return false;
 				}
 				break;
 			case RGUI_OPEN:
 				if (record->tap.count) {
-					tap_code16(C(KC_O));
+					tap_code16(CMD_OPEN);
 					return false;
 				}
 				break;
@@ -59,25 +59,31 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
 		// Hold Overrides
 			case UNDO_X:
 				if (!record->tap.count && record->event.pressed) {
-					tap_code16(C(KC_Z));
+					tap_code16(CMD_UNDO);
 					return false;
 				}
 				break;
 			case CUT_V:
 				if (!record->tap.count && record->event.pressed) {
-					tap_code16(C(KC_X));
+					tap_code16(CMD_CUT);
 					return false;
 				}
 				break;
 			case COPY_C:
 				if (!record->tap.count && record->event.pressed) {
-					tap_code16(C(KC_C));
+					tap_code16(CMD_COPY);
 					return false;
 				}
 				break;
 			case PASTE_D:
 				if (!record->tap.count && record->event.pressed) {
-					tap_code16(C(KC_V));
+					tap_code16(CMD_PASTE);
+					return false;
+				}
+				break;
+			case REDO_Q:
+				if (!record->tap.count && record->event.pressed) {
+					tap_code16(CMD_REDO);
 					return false;
 				}
 				break;
@@ -216,7 +222,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
 			case KC_K:			return send_unicode_set("", "", "ʔ", "ʕ");		break;
 			case KC_COMMA:		return send_unicode_set("", "", "̧", "̨");		break;
 			case KC_DOT:		return send_unicode_set("", "", "̈", "̇");		break;
-
+			
 	// Numeric
 		// Row 1
 			case CK_1_9:		return send_unicode_set("⅑", "⅑", "⅑", "⅑");	break;

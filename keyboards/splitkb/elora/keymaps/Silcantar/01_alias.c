@@ -20,7 +20,7 @@
 #define LAYERUP			LT(_LAYER, KC_1)
 
 // Thumb Mod-Taps
-#define LALT_TABL		MT(MOD_LALT, KC_0)
+#define RALT_TABL		MT(MOD_RALT, KC_0)
 #define LGUI_ESC		MT(MOD_LGUI, KC_ESC)
 #define LSFT_ENT		MT(MOD_LSFT, KC_ENT)
 #define RALT_TAB		MT(MOD_RALT, KC_TAB)
@@ -49,12 +49,14 @@
 
 // Commands
 // Function Layer
+#define KC_TABL			S(KC_TAB)
 #define CMD_TOP			C(KC_HOME)
 #define CMD_BOTTOM		C(KC_END)
 #define CMD_UNDO		C(KC_Z)
 #define CMD_CUT			C(KC_X)
 #define CMD_COPY		C(KC_C)
 #define CMD_PASTE		C(KC_V)
+#define CMD_PASTE_SP	C(S(KC_V))
 #define CMD_REDO		C(S(KC_Z))
 #define CMD_HELP		KC_F1
 #define CMD_REFRSH		KC_F5
@@ -148,6 +150,7 @@
 #define CUT_V		LT(0, KC_V)
 #define COPY_C		LT(0, KC_C)
 #define PASTE_D		LT(0, KC_D)
+#define REDO_Q		LT(0, KC_Q)
 
 // Tapping Term Configuration
 #define THUMB_TAP_TERM	TAPPING_TERM + 0
