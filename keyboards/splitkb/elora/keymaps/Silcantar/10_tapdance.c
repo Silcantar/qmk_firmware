@@ -208,9 +208,10 @@ void td_angles_finished(tap_dance_state_t *state, void *user_data) {
 	switch (td_angles_tap_state.state) {
 		case TD_SINGLE_TAP: 
 			if (SHIFT_ACTIVE) {
+				CLEAR_SHIFT;
 				send_unicode_string("≤");
 			} else {
-				tap_code16(KC_LT);
+				send_string("<");
 			}
 			break;
 		case TD_SINGLE_HOLD:
@@ -239,9 +240,10 @@ void td_bracks_finished(tap_dance_state_t *state, void *user_data) {
 	switch (td_bracks_tap_state.state) {
 		case TD_SINGLE_TAP: 
 			if (SHIFT_ACTIVE) {
-				tap_code16(KC_RBRC);
+				CLEAR_SHIFT;
+				send_string("]");
 			} else {
-				tap_code16(KC_LBRC);
+				send_string("[");
 			}
 			break;
 		case TD_SINGLE_HOLD:
@@ -270,9 +272,10 @@ void td_braces_finished(tap_dance_state_t *state, void *user_data) {
 	switch (td_braces_tap_state.state) {
 		case TD_SINGLE_TAP: 
 			if (SHIFT_ACTIVE) {
-				tap_code16(KC_RCBR);
+				CLEAR_SHIFT;
+				send_string("}");
 			} else {
-				tap_code16(KC_LCBR);
+				send_string("{");
 			}
 			break;
 		case TD_SINGLE_HOLD:
@@ -288,7 +291,7 @@ void td_braces_finished(tap_dance_state_t *state, void *user_data) {
 
 void td_braces_reset(tap_dance_state_t *state, void *user_data) {
 	switch (td_braces_tap_state.state) {
-		case TD_SINGLE_TAP:  break;
+		case TD_SINGLE_TAP: break;
 		case TD_SINGLE_HOLD: unregister_code(KC_LCTL); break;
 		case TD_DOUBLE_TAP: break;
 		default: break;
@@ -301,9 +304,10 @@ void td_parens_finished(tap_dance_state_t *state, void *user_data) {
 	switch (td_parens_tap_state.state) {
 		case TD_SINGLE_TAP: 
 			if (SHIFT_ACTIVE) {
-				tap_code16(KC_RPRN);
+				CLEAR_SHIFT;
+				send_string(")");
 			} else {
-				tap_code16(KC_LPRN);
+				send_string("(");
 			}
 			break;
 		case TD_SINGLE_HOLD:
@@ -332,8 +336,6 @@ void td_exclams(tap_dance_state_t *state, void *user_data) {
 	if (state->count >= 2) {
 		send_unicode_string("¡!");
 		tap_code16(KC_LEFT);
-	} else if (SHIFT_ACTIVE) {
-		send_unicode_string("¡");
 	} else {
 		send_unicode_set("!", "¡", "̂", "̌");
 	}
@@ -369,13 +371,11 @@ void td_ques(tap_dance_state_t *state, void *user_data) {
 void td_quotes(tap_dance_state_t *state, void *user_data) {
 	if (state->count >= 2) {
 		if (SHIFT_ACTIVE) {
-			//const uint8_t mods = GET_ALL_MODS;
 			CLEAR_SHIFT;
-			send_unicode_string("\"\"");
+			send_string("\"\"");
 			tap_code16(KC_LEFT);
-			//set_mods(mods);
 		} else {
-			send_unicode_string("''");
+			send_string("''");
 			tap_code16(KC_LEFT);
 		}
 	} else {
@@ -385,7 +385,7 @@ void td_quotes(tap_dance_state_t *state, void *user_data) {
 
 void td_uscores(tap_dance_state_t *state, void *user_data) {
 	if (state->count >= 2) {
-		send_unicode_string("__");
+		send_string("__");
 		tap_code16(KC_LEFT);
 	} else {
 		send_unicode_set("_", "-", "̄", "̱");
@@ -394,9 +394,10 @@ void td_uscores(tap_dance_state_t *state, void *user_data) {
 
 void td_pipes(tap_dance_state_t *state, void *user_data) {
 	if (state->count >= 2) {
-		send_unicode_string("||");
+		send_string("||");
 		tap_code16(KC_LEFT);
 	} else if (SHIFT_ACTIVE) {
+		CLEAR_SHIFT;
 		send_unicode_string("€");
 	} else {
 		tap_code16(KC_PIPE);
@@ -405,10 +406,11 @@ void td_pipes(tap_dance_state_t *state, void *user_data) {
 
 void td_pascomm(tap_dance_state_t *state, void *user_data) {
 	if (state->count >= 2) {
-		send_unicode_string("(**)");
+		send_string("(**)");
 		tap_code16(KC_LEFT);
 		tap_code16(KC_LEFT);
 	} else if (SHIFT_ACTIVE) {
+		CLEAR_SHIFT;
 		send_unicode_string("≥");
 	} else {
 		tap_code16(KC_GT);
@@ -417,9 +419,10 @@ void td_pascomm(tap_dance_state_t *state, void *user_data) {
 
 void td_stars(tap_dance_state_t *state, void *user_data) {
 	if (state->count >= 2) {
-		send_unicode_string("**");
+		send_string("**");
 		tap_code16(KC_LEFT);
 	} else if (SHIFT_ACTIVE) {
+		CLEAR_SHIFT;
 		send_unicode_string("×");
 	} else {
 		tap_code16(KC_ASTR);
@@ -428,10 +431,11 @@ void td_stars(tap_dance_state_t *state, void *user_data) {
 
 void td_ccomm(tap_dance_state_t *state, void *user_data) {
 	if (state->count >= 2) {
-		send_unicode_string("/**/");
+		send_string("/**/");
 		tap_code16(KC_LEFT);
 		tap_code16(KC_LEFT);
 	} else if (SHIFT_ACTIVE) {
+		CLEAR_SHIFT;
 		send_unicode_string("°");
 	} else {
 		tap_code16(KC_CIRC);
@@ -449,7 +453,7 @@ tap_dance_action_t tap_dance_actions[] = {
 
 	// Macros with hold
 	[_ANGLES]		= ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_angles_finished, td_angles_reset),
-	[_BRACKS]		= ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_parens_finished, td_bracks_reset),
+	[_BRACKS]		= ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_bracks_finished, td_bracks_reset),
 	[_BRACES]		= ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_braces_finished, td_braces_reset),
 	[_PARENS]		= ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_parens_finished, td_parens_reset),
 	
