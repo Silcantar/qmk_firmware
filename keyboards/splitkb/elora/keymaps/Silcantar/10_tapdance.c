@@ -102,25 +102,11 @@ static td_tap_t td_parens_tap_state = {
 	.state = TD_NONE
 };
 
-/*void td_swap_finished(tap_dance_state_t *state, void *user_data) {
-	td_swap_tap_state.state = cur_dance(state);
-	switch (td_swap_tap_state.state) {
-		case TD_SINGLE_TAP: layer_clear(); break;
-		case TD_SINGLE_HOLD: swap_hands_on(); break;
-		case TD_DOUBLE_TAP: swap_hands_toggle(); break;
-		default: break;
-	}
-}
-
-void td_swap_reset(tap_dance_state_t *state, void *user_data) {
-	switch (td_swap_tap_state.state) {
-		case TD_SINGLE_TAP: break;
-		case TD_SINGLE_HOLD: swap_hands_off(); break;
-		case TD_DOUBLE_TAP: break;
-		default: break;
-	}
-	td_numeric_tap_state.state = TD_NONE;
-}*/
+// Create an instance of 'td_tap_t' for the 'quotes' tap dance.
+static td_tap_t td_quotes_tap_state = {
+	.is_press_action = true,
+	.state = TD_NONE
+};
 
 void td_numeric_finished(tap_dance_state_t *state, void *user_data) {
 	td_numeric_tap_state.state = cur_dance(state);
@@ -325,10 +311,43 @@ void td_parens_reset(tap_dance_state_t *state, void *user_data) {
 	switch (td_parens_tap_state.state) {
 		case TD_SINGLE_TAP:  break;
 		case TD_SINGLE_HOLD: unregister_code(KC_LSFT); break;
-		case TD_DOUBLE_TAP: break;
+		case TD_DOUBLE_TAP:  break;
 		default: break;
 	}
 	td_parens_tap_state.state = TD_NONE;
+}
+
+void td_quotes_finished(tap_dance_state_t *state, void *user_data) {
+	td_quotes_tap_state.state = cur_dance(state);
+	switch (td_quotes_tap_state.state) {
+		case TD_SINGLE_TAP:
+			send_unicode_set("'", "\"", "́", "̋");
+			break;
+		case TD_SINGLE_HOLD:
+			tap_code16(CMD_OPEN);
+			break;
+		case TD_DOUBLE_TAP:
+			if (SHIFT_ACTIVE) {
+				CLEAR_SHIFT;
+				send_string("\"\"");
+				tap_code16(KC_LEFT);
+			} else {
+				send_string("''");
+				tap_code16(KC_LEFT);
+			}
+			break;
+		default: break;
+	}
+}
+
+void td_quotes_reset(tap_dance_state_t *state, void *user_data) {
+	switch (td_quotes_tap_state.state) {
+		case TD_SINGLE_TAP:  break;
+		case TD_SINGLE_HOLD: break;
+		case TD_DOUBLE_TAP: break;
+		default: break;
+	}
+	td_quotes_tap_state.state = TD_NONE;
 }
 
 // Macros
@@ -365,21 +384,6 @@ void td_ques(tap_dance_state_t *state, void *user_data) {
 		tap_code16(KC_LEFT);
 	} else {
 		send_unicode_set("?", "¿", "̃", "̛");
-	}
-}
-
-void td_quotes(tap_dance_state_t *state, void *user_data) {
-	if (state->count >= 2) {
-		if (SHIFT_ACTIVE) {
-			CLEAR_SHIFT;
-			send_string("\"\"");
-			tap_code16(KC_LEFT);
-		} else {
-			send_string("''");
-			tap_code16(KC_LEFT);
-		}
-	} else {
-		send_unicode_set("'", "\"", "́", "̋");
 	}
 }
 
@@ -456,13 +460,13 @@ tap_dance_action_t tap_dance_actions[] = {
 	[_BRACKS]		= ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_bracks_finished, td_bracks_reset),
 	[_BRACES]		= ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_braces_finished, td_braces_reset),
 	[_PARENS]		= ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_parens_finished, td_parens_reset),
+	[_QUOTES]		= ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_quotes_finished, td_quotes_reset),
 	
 	// Macros
 	[_EXCLAMS]		= ACTION_TAP_DANCE_FN(td_exclams),
 	[_FSQUOTE]		= ACTION_TAP_DANCE_FN(td_fsquote),
 	[_FDQUOTE]		= ACTION_TAP_DANCE_FN(td_fdquote),
 	[_QUES]			= ACTION_TAP_DANCE_FN(td_ques),
-	[_QUOTES]		= ACTION_TAP_DANCE_FN(td_quotes),
 	[_USCORES]		= ACTION_TAP_DANCE_FN(td_uscores),
 	[_PIPES]		= ACTION_TAP_DANCE_FN(td_pipes),
 	[_PASCOMM]		= ACTION_TAP_DANCE_FN(td_pascomm),

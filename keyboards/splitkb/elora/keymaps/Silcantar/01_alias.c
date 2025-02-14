@@ -118,18 +118,22 @@
 #define LALT_R			MT(MOD_LALT, KC_R)
 #define LCTL_S			MT(MOD_LCTL, KC_S)
 #define LSFT_KC_T		MT(MOD_LSFT, KC_T)
+#define RALT_G			MT(MOD_RALT, KC_G)
+#define RALT_M			MT(MOD_RALT, KC_M)
 #define RSFT_N			MT(MOD_RSFT, KC_N)
 #define RCTL_E			MT(MOD_RCTL, KC_E)
-#define LALT_I			MT(MOD_RALT, KC_I)
+#define LALT_I			MT(MOD_LALT, KC_I)
 #define RGUI_O			MT(MOD_RGUI, KC_O)
 
 	// Numeric
+#define RALT_SLSH		MT(MOD_RALT, KC_SLSH)
 #define RSFT_4			MT(MOD_RSFT, KC_4)
 #define RCTL_5			MT(MOD_RCTL, KC_5)
-#define LALT_6			MT(MOD_RALT, KC_6)
+#define LALT_6			MT(MOD_LALT, KC_6)
 #define RGUI_0			MT(MOD_RGUI, KC_0)
 
 	// Function
+#define RALT_SYM		MT(MOD_RALT, KC_NO)
 #define RSFT_NEW		MT(MOD_RSFT, KC_NO)
 #define RCTL_EDIT		MT(MOD_RCTL, KC_F2)
 #define LALT_SAVE		MT(MOD_LALT, KC_NO)
@@ -151,9 +155,14 @@
 #define COPY_C		LT(0, KC_C)
 #define PASTE_D		LT(0, KC_D)
 #define REDO_Q		LT(0, KC_Q)
+#define SAVE_W		LT(0, KC_W)
+#define EDIT_F		LT(0, KC_F)
+#define NEW_P		LT(0, KC_P)
+#define SYM_B		LT(0, KC_B)
 
 // Tapping Term Configuration
 #define THUMB_TAP_TERM	TAPPING_TERM + 0
+#define INSIDE_TAP_TERM	TAPPING_TERM + 0
 #define INDEX_TAP_TERM	TAPPING_TERM - 50
 #define MIDDLE_TAP_TERM	TAPPING_TERM + 0
 #define RING_TAP_TERM	TAPPING_TERM + 50
@@ -161,25 +170,39 @@
 
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
+	case RALT_G:
+	case RALT_M:
+	case RALT_SLSH:
+	case RALT_SYM:
+	case SYM_B:
+	case REDO_Q:
+		return INSIDE_TAP_TERM;
 	case LSFT_KC_T:
 	case RSFT_N:
 	case RSFT_4:
 	case RSFT_NEW:
+	case NEW_P:
+	case PASTE_D:
 		return INDEX_TAP_TERM;
 	case LCTL_S:
 	case RCTL_E:
 	case RCTL_5:
 	case RCTL_EDIT:
+	case EDIT_F:
+	case COPY_C:
 		return MIDDLE_TAP_TERM;
 	case LALT_R:
 	case LALT_I:
 	case LALT_6:
 	case LALT_SAVE:
+	case SAVE_W:
+	case CUT_V:
 		return RING_TAP_TERM;
 	case LGUI_A:
 	case RGUI_O:
 	case RGUI_0:
 	case RGUI_OPEN:
+	case UNDO_X:
 		return PINKY_TAP_TERM;
 	default:
 		return THUMB_TAP_TERM;

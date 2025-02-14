@@ -37,6 +37,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
 					return false;
 				}
 				break;
+			case RALT_SYM:
+				if (record->tap.count) {
+					tap_code16(CMD_SYMBOL);
+					return false;
+				}
+				break;
 			case RSFT_NEW:
 				if (record->tap.count) {
 					tap_code16(CMD_NEW);
@@ -57,6 +63,30 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
 				break;
 
 		// Hold Overrides
+			case SAVE_W:
+				if (!record->tap.count && record->event.pressed) {
+					tap_code16(CMD_SAVE);
+					return false;
+				}
+				break;
+			case EDIT_F:
+				if (!record->tap.count && record->event.pressed) {
+					tap_code16(CMD_EDIT);
+					return false;
+				}
+				break;
+			case NEW_P:
+				if (!record->tap.count && record->event.pressed) {
+					tap_code16(CMD_NEW);
+					return false;
+				}
+				break;
+			case SYM_B:
+				if (!record->tap.count && record->event.pressed) {
+					tap_code16(CMD_SYMBOL);
+					return false;
+				}
+				break;
 			case UNDO_X:
 				if (!record->tap.count && record->event.pressed) {
 					tap_code16(CMD_UNDO);
