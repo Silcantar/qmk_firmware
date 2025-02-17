@@ -218,14 +218,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *		|			|			|			|			|			|			|			|			|	|			|			|			|			|			|			|			|			|
  *		|	 1/9	|	 1/7	| 1/6	1/5 | 1/3	2/5 | 2/3	3/5 | 5/6	4/5 |			|			|	|			|			|	 1/8	| 1/4	3/8 | 1/2	5/8 | 3/4	7/8 |	 1/10	|	  1/	|
  *		|-----------+-----------+-----------+-----------+-----------+-----------|			|-----------|	|-----------|			|-----------+-----------+-----------+-----------+-----------+-----------|
- *		|			|	"||←"	|			| "⁄**⁄←←"	|			|			|			|			|	|			|			|	"**←"	|			|			|			|			|			|
- *		|	Trans	|	|	€	|	~	≈	|	^	°	|	%	‰	|	\	∫	|			|	Trans	|	|	Trans	|			|	*	×	|	7	√	|	8	∞	|	9	∂	|	/	⁄	|	Trans	|
+ *		|			|	"||←"	|			| "⁄**⁄←←"	|			|			|			|			|	|			|			|	"**←"	|			|			|			|	"__←"	|			|
+ *		|	Trans	|	|	€	|	~	≈	|	^	°	|	%	‰	|	\	∫	|			|	Trans	|	|	Trans	|			|	*	×	|	7	√	|	8	∞	|	9	∂	|	-	_	|	Trans	|
  *		|-----------+-----------+-----------+-----------+-----------+-----------|			|-----------|	|-----------|			|-----------+-----------+-----------+-----------+-----------+-----------|
  *		|			|	"<>←"	|	"[]←"	|	"{}←"	|	"()←"	|  "(**)←"	|			|			|	|			|			|			|			|			|			|			|			|
- *		|	Trans	|	<	≤	|	[	]	|	{	}	|	(	)	|	>	≥	|			|			|	|			|			|	+	±	|	4	D	|	5	E	|	6	F	|	0 "000" |	Trans	|
+ *		|	Trans	|	<	≤	|	[	]	|	{	}	|	(	)	|	>	≥	|			|			|	|			|			|	/	⁄	|	4	D	|	5	E	|	6	F	|	0 "000" |	Trans	|
  *		|-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------|	|-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------|
- *		|			|			|			|			|			|			|			|			|	|			|			|	"__←"	|			|			|			|			|			|
- *		|	Trans	|	µ	Ω	|	#	£	|	$	¢	|	=	≠	|	÷	−	|	Trans	|	Trans	|	|	Trans	|	Trans	|	-	_	|	1	A	|	2	B	|	3	C	|	.	:	|	Trans	|
+ *		|			|			|			|			|			|			|			|			|	|			|			|			|			|			|			|			|			|
+ *		|	Trans	|	µ	Ω	|	#	£	|	$	¢	|	=	≠	|	÷	−	|	Trans	|	Trans	|	|	Trans	|	Trans	|	+	±	|	1	A	|	2	B	|	3	C	|	.	:	|	Trans	|
  *		`-----------------------------------+-----------+-----------+-----------+-----------+-----------|	|-----------+-----------+-----------+-----------+-----------+-----------------------------------'
  *											|			|			|			|			|			|	|			|			|			|			|			|
  *											|	Trans	|	Trans	|	Trans	|	Trans	|	Trans	|	|	Trans	|	Trans	|	Trans	|	Trans	|	Trans	|
@@ -238,9 +238,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 	[_NUMERIC] = LAYOUT_myr(
 		CK_1_9		, CK_1_7	, CK_1_6	, CK_1_3	, CK_2_3	, CK_5_6				,KC_NO		,	  KC_NO		,			  CK_1_8	, CK_1_4	, CK_1_2	, CK_3_4	, CK_1_10	, CK_ONE_OVER,
-		KC_TRNS		, KC_BSLS	, KC_TILDE	, TD_CCOMM	, KC_PERCENT, TD_PIPES	,			  KC_TRNS	,	  KC_TRNS	,			  KC_PLUS	, KC_7		, KC_8		, KC_9		, KC_MINUS	, KC_TRNS,
+		KC_TRNS		, KC_BSLS	, KC_TILDE	, TD_CCOMM	, KC_PERCENT, TD_PIPES	,			  KC_TRNS	,	  KC_TRNS	,			  TD_STARS	, KC_7		, KC_8		, KC_9		, KC_MINUS	, KC_TRNS,
 		KC_TRNS		, TD_ANGLES	, TD_BRACKS	, TD_BRACES	, TD_PARENS	, TD_PASCOMM,			  KC_NO		,	  KC_NO		,			  RALT_SLSH	, RSFT_4	, RCTL_5	, LALT_6	, RGUI_0	, KC_TRNS,
-		KC_TRNS		, CK_MICRO	, KC_HASH	, KC_DOLLAR	, KC_EQUAL	, CK_DIVIDE	, KC_TRNS	, KC_TRNS	,	  KC_TRNS	, KC_TRNS	, TD_STARS	, KC_1		, KC_2		, KC_3		, KC_DOT	, KC_TRNS,
+		KC_TRNS		, CK_MICRO	, KC_HASH	, KC_DOLLAR	, KC_EQUAL	, CK_DIVIDE	, KC_TRNS	, KC_TRNS	,	  KC_TRNS	, KC_TRNS	, KC_PLUS	, KC_1		, KC_2		, KC_3		, KC_DOT	, KC_TRNS,
 														  KC_TRNS	, KC_TRNS	, KC_TRNS	, KC_TRNS	,	  KC_TRNS	, KC_TRNS	, KC_TRNS	, KC_TRNS	, KC_TRNS	, KC_TRNS	,
 
 		KC_NO		, KC_NO		, KC_NO		, KC_NO		,			  KC_NO		,			  KC_NO		,	  KC_NO		, KC_NO		, KC_NO		,			  KC_NO
