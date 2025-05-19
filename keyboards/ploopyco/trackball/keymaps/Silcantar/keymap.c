@@ -15,32 +15,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include QMK_KEYBOARD_H
 
-#pragma once
-
-#include "quantum.h"
-
-typedef union {
-    uint32_t raw;
-    struct {
-        uint8_t dpi_config;
-    };
-} keyboard_config_t;
-
-extern keyboard_config_t keyboard_config;
-extern uint16_t          dpi_array[];
-
-enum ploopy_keycodes {
-    DPI_CONFIG = QK_KB_0,
-    DRAG_SCROLL,
+const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+    [0] = LAYOUT( /* Base */
+        KC_BTN1, KC_BTN3, KC_BTN2,
+          KC_BTN4, KC_BTN5
+    ),
 };
-
-bool is_drag_scroll;
-
-bool encoder_update_user(uint8_t index, bool clockwise);
-bool encoder_update_kb(uint8_t index, bool clockwise);
-void set_drag_scroll(bool state);
-void toggle_drag_scroll(void);
-void cycle_dpi(void);
-void cycle_dragscroll(int inc);
-void hscroll_toggle(void);

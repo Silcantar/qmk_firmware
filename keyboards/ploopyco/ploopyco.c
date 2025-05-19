@@ -45,12 +45,37 @@
 #ifndef PLOOPY_DPI_DEFAULT
 #    define PLOOPY_DPI_DEFAULT 0
 #endif
-#ifndef PLOOPY_DRAGSCROLL_DIVISOR_H
-#    define PLOOPY_DRAGSCROLL_DIVISOR_H 8.0
+
+#ifndef PLOOPY_DRAGSCROLL_MULTIPLIER_H
+#    define PLOOPY_DRAGSCROLL_MULTILPLIER_H 0.1
 #endif
-#ifndef PLOOPY_DRAGSCROLL_DIVISOR_V
-#    define PLOOPY_DRAGSCROLL_DIVISOR_V 8.0
+#ifndef PLOOPY_DRAGSCROLL_MULTIPLIER_V
+#    define PLOOPY_DRAGSCROLL_MULTIPLIER_V 0.1
 #endif
+
+/* Ratio between horizontal and vertical scrolling rates.
+ * For equal speeds, set to 1.0.
+ * For faster vertical scrolling faster than horizontal, set to greater than 1.0
+ * For faster horizontal scrolling, set to less than 1.0.
+ * For horizontal and vertical scrolling in opposite directions relative to ball movement, negate the value. 
+ */
+#ifndef PLOOPY_DRAGSCROLL_RATIO
+#    define PLOOPY_DRAGSCROLL_RATIO 1.0
+#endif
+
+/* Drag scroll multipliers to cycle through. This value is used unmodified for vertical scrolling and 
+ * multiplied by the drag scroll ratio above for horizontal scrolling. Set to negative value to
+ * invert scrolling direction.
+ */
+#ifndef PLOOPY_DRAGSCROLL_OPTIONS
+#    define PLOOPY_DRAGSCROLL_OPTIONS { 0.1, 0.06, 0.04, 0.03, 0.02 }
+#endif
+
+/* Index of the default drag scroll multiplier. */
+#ifndef PLOOPY_DRAGSCROLL_DEFAULT
+#    define PLOOPY_DRAGSCROLL_DEFAULT 1
+#endif
+
 #ifndef ENCODER_BUTTON_ROW
 #    define ENCODER_BUTTON_ROW 0
 #endif
@@ -59,14 +84,20 @@
 #endif
 
 keyboard_config_t keyboard_config;
-uint16_t          dpi_array[] = PLOOPY_DPI_OPTIONS;
+uint16_t dpi_array[]        = PLOOPY_DPI_OPTIONS;
 #define DPI_OPTION_SIZE ARRAY_SIZE(dpi_array)
+
+uint16_t dragscroll_config  = PLOOPY_DRAGSCROLL_DEFAULT;
+float    dragscroll_array[] = PLOOPY_DRAGSCROLL_OPTIONS;
+#define DRAGSCROLL_OPTION_SIZE ARRAY_SIZE(dragscroll_array)
 
 // Trackball State
 bool  is_scroll_clicked    = false;
 bool  is_drag_scroll       = false;
 float scroll_accumulated_h = 0;
 float scroll_accumulated_v = 0;
+float dragscroll_multiplier_v = PLOOPY_DRAGSCROLL_MULTIPLIER_V;
+float dragscroll_multiplier_h = PLOOPY_DRAGSCROLL_MULTIPLIER_V * PLOOPY_DRAGSCROLL_RATIO;
 
 #ifdef ENCODER_ENABLE
 uint16_t lastScroll        = 0; // Previous confirmed wheel event
@@ -128,6 +159,10 @@ void encoder_driver_task(void) {
 }
 #endif
 
+void set_drag_scroll(bool state) {
+    is_drag_scroll = state;
+}
+
 void toggle_drag_scroll(void) {
     is_drag_scroll ^= 1;
 }
@@ -138,14 +173,28 @@ void cycle_dpi(void) {
     pointing_device_set_cpi(dpi_array[keyboard_config.dpi_config]);
 }
 
+void cycle_dragscroll(int inc) {
+    dragscroll_config = (dragscroll_config + inc) % DRAGSCROLL_OPTION_SIZE;
+    dragscroll_multiplier_v = dragscroll_array[dragscroll_config];
+    dragscroll_multiplier_h = dragscroll_multiplier_v * PLOOPY_DRAGSCROLL_RATIO;
+}
+
+void hscroll_toggle(void) {
+    if (dragscroll_multiplier_h == 0.0) {
+        dragscroll_multiplier_h = dragscroll_multiplier_v * PLOOPY_DRAGSCROLL_RATIO;
+    } else {
+        dragscroll_multiplier_h = 0.0;
+    }
+}
+
 report_mouse_t pointing_device_task_kb(report_mouse_t mouse_report) {
     if (is_drag_scroll) {
-        scroll_accumulated_h += (float)mouse_report.x / PLOOPY_DRAGSCROLL_DIVISOR_H;
-        scroll_accumulated_v += (float)mouse_report.y / PLOOPY_DRAGSCROLL_DIVISOR_V;
+        scroll_accumulated_h += (float)mouse_report.x * dragscroll_multiplier_h;    //PLOOPY_DRAGSCROLL_multiplier_H; //
+        scroll_accumulated_v += (float)mouse_report.y * dragscroll_multiplier_v;    //PLOOPY_DRAGSCROLL_multiplier_V; //
 
         // Assign integer parts of accumulated scroll values to the mouse report
         mouse_report.h = (int8_t)scroll_accumulated_h;
-#ifdef PLOOPY_DRAGSCROLL_INVERT
+#ifdef PLOOPY_DRAGSCROLL_INVERT // Deprecated in favor of PLOOPY_DRAGSCROLL_OPTIONS; kept for backwards compatibility.
         mouse_report.v = -(int8_t)scroll_accumulated_v;
 #else
         mouse_report.v = (int8_t)scroll_accumulated_v;
@@ -235,6 +284,7 @@ void pointing_device_init_kb(void) {
         eeconfig_init_kb();
     }
     pointing_device_set_cpi(dpi_array[keyboard_config.dpi_config]);
+    cycle_dragscroll(0);
 }
 
 void eeconfig_init_kb(void) {
