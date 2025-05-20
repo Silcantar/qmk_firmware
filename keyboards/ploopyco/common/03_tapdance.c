@@ -129,8 +129,9 @@ void td_drag_scroll_reset(tap_dance_state_t *state, void *user_data) {
 void td_snipe_finished(tap_dance_state_t *state, void *user_data) {
     td_snipe_tap_state.state = cur_dance(state);
     switch (td_snipe_tap_state.state) {
-        case TD_SINGLE_TAP: /*Debug tap_code16(KC_X)*/; cycle_dpi(); break;
-        case TD_SINGLE_HOLD: /*Debug tap_code16(KC_Y)*/; pointing_device_set_cpi(dpi_array[PLOOPY_DPI_SNIPE]); break;
+        case TD_SINGLE_TAP: cycle_dpi(1); break;
+        case TD_SINGLE_HOLD: set_dpi(PLOOPY_DPI_SNIPE); break;
+		case TD_DOUBLE_TAP: toggle_snipe(); break;
         default: break;
     }
 }
@@ -138,7 +139,8 @@ void td_snipe_finished(tap_dance_state_t *state, void *user_data) {
 void td_snipe_reset(tap_dance_state_t *state, void *user_data) {
     switch (td_snipe_tap_state.state) {
         case TD_SINGLE_TAP: break;
-        case TD_SINGLE_HOLD: /*Debug tap_code16(KC_Z)*/; pointing_device_set_cpi(dpi_array[PLOOPY_DPI_DEFAULT]); break;
+        case TD_SINGLE_HOLD: set_dpi(PLOOPY_DPI_DEFAULT); break;
+		case TD_DOUBLE_TAP: break;
         default: break;
     }
     td_snipe_tap_state.state = TD_NONE;

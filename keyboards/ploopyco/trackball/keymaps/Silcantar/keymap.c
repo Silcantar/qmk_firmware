@@ -24,6 +24,8 @@
 
 #include "03_tapdance.c"
 
+#include "04_encoder.c"
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_DEFAULT] = LAYOUT(
 /*		

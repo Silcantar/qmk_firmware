@@ -69,7 +69,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 		}
 		case HT_SNIPE: {
 			if (record->event.pressed && record->tap.count) {
-				cycle_dpi();
+				cycle_dpi(1);
 				return false;
 			} else if (record->event.pressed) {
 				pointing_device_set_cpi(dpi_array[PLOOPY_DPI_SNIPE]);

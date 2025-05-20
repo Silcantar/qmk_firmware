@@ -45,6 +45,9 @@
 #ifndef PLOOPY_DPI_DEFAULT
 #    define PLOOPY_DPI_DEFAULT 0
 #endif
+#ifndef PLOOPY_DPI_SNIPE
+#	define PLOOPY_DPI_SNIPE 0
+#endif
 
 #ifndef PLOOPY_DRAGSCROLL_MULTIPLIER_H
 #    define PLOOPY_DRAGSCROLL_MULTILPLIER_H 0.1
@@ -159,6 +162,24 @@ void encoder_driver_task(void) {
 }
 #endif
 
+void cycle_dpi(int inc) {
+    keyboard_config.dpi_config = (keyboard_config.dpi_config + inc) % DPI_OPTION_SIZE;
+    eeconfig_update_kb(keyboard_config.raw);
+    pointing_device_set_cpi(dpi_array[keyboard_config.dpi_config]);
+}
+
+void set_dpi(int index) {
+	keyboard_config.dpi_config = index % DPI_OPTION_SIZE;
+	eeconfig_update_kb(keyboard_config.raw);
+	pointing_device_set_cpi(dpi_array[keyboard_config.dpi_config]);
+}
+
+void cycle_dragscroll(int inc) {
+    dragscroll_config = (dragscroll_config + inc) % DRAGSCROLL_OPTION_SIZE;
+    dragscroll_multiplier_v = dragscroll_array[dragscroll_config];
+    dragscroll_multiplier_h = dragscroll_multiplier_v * PLOOPY_DRAGSCROLL_RATIO;
+}
+
 void set_drag_scroll(bool state) {
     is_drag_scroll = state;
 }
@@ -167,16 +188,12 @@ void toggle_drag_scroll(void) {
     is_drag_scroll ^= 1;
 }
 
-void cycle_dpi(void) {
-    keyboard_config.dpi_config = (keyboard_config.dpi_config + 1) % DPI_OPTION_SIZE;
-    eeconfig_update_kb(keyboard_config.raw);
-    pointing_device_set_cpi(dpi_array[keyboard_config.dpi_config]);
-}
-
-void cycle_dragscroll(int inc) {
-    dragscroll_config = (dragscroll_config + inc) % DRAGSCROLL_OPTION_SIZE;
-    dragscroll_multiplier_v = dragscroll_array[dragscroll_config];
-    dragscroll_multiplier_h = dragscroll_multiplier_v * PLOOPY_DRAGSCROLL_RATIO;
+void toggle_snipe() {
+	if (keyboard_config.dpi_config != PLOOPY_DPI_DEFAULT) {
+		set_dpi(PLOOPY_DPI_DEFAULT);
+	} else {
+		set_dpi(PLOOPY_DPI_SNIPE);
+	}
 }
 
 void hscroll_toggle(void) {
@@ -233,7 +250,7 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
     }
 
     if (keycode == DPI_CONFIG && record->event.pressed) {
-        cycle_dpi();
+        cycle_dpi(1);
     }
 
     if (keycode == DRAG_SCROLL) {
