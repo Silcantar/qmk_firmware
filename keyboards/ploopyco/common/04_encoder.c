@@ -18,7 +18,7 @@ bool last_direction;
 
 bool encoder_update_user(uint8_t index, bool clockwise) {
 
-	static uint16_t key_timer;
+	/*static uint16_t key_timer;
 	key_timer = timer_read();
 
 	if (timer_elapsed(key_timer) < TAPPING_TERM && clockwise != last_direction) {
@@ -27,7 +27,9 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 		clockwise ? cycle_dpi(1) : cycle_dpi(-1);
 	}
 	
-	last_direction = clockwise;
+	last_direction = clockwise;*/
+
+	clockwise ? set_dpi(PLOOPY_DPI_DEFAULT) : set_dpi(PLOOPY_DPI_SNIPE);
 
 	return false;
 }
